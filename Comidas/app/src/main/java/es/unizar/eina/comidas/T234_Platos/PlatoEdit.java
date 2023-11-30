@@ -75,10 +75,10 @@ public class PlatoEdit extends AppCompatActivity {
         listaPlatosLD = mPlatoViewModel.getAllPlatos();
         //numeroDePlatos = mPlatoViewModel.getNumeroDePlatos();
 
-        mNombreText = findViewById(R.id.nombrePlato);
-        mDescripcionText = findViewById(R.id.descripcionPlato);
-        mCategoriaText = findViewById(R.id.categoriaPlato);
-        mPrecioText = findViewById(R.id.precioPlato);
+        mNombreText = (EditText) findViewById(R.id.nombrePlato);
+        mDescripcionText = (EditText) findViewById(R.id.descripcionPlato);
+        mCategoriaText = (EditText) findViewById(R.id.categoriaPlato);
+        mPrecioText = (EditText) findViewById(R.id.precioPlato);
 
         mSaveButton = findViewById(R.id.button_platos);
         mSaveButton.setOnClickListener(view -> {
@@ -91,7 +91,9 @@ public class PlatoEdit extends AppCompatActivity {
                                      mDescripcionText.getText().toString());
                 replyIntent.putExtra(PlatoEdit.PLATO_CATEGORIA,
                                      mCategoriaText.getText().toString());
-                replyIntent.putExtra(PlatoEdit.PLATO_PRECIO, mPrecioText.getText());
+                Double precioPlato = Double.parseDouble(mPrecioText.getText().toString());
+                replyIntent.putExtra(PlatoEdit.PLATO_PRECIO, precioPlato);
+                //replyIntent.putExtra(PlatoEdit.PLATO_PRECIO, mPrecioText.getText().toString());
                 if (mRowId != null) {
                     replyIntent.putExtra(PlatoEdit.PLATO_ID, mRowId.intValue());
                 }
@@ -112,24 +114,37 @@ public class PlatoEdit extends AppCompatActivity {
     private void populateFields () {
         mRowId = null;
         Bundle extras = getIntent().getExtras();
+
         if (extras!=null) {
             mNombreText.setText(extras.getString(PlatoEdit.PLATO_NOMBRE));
             mDescripcionText.setText(extras.getString(PlatoEdit.PLATO_DESCRIPCION));
             mCategoriaText.setText(extras.getString(PlatoEdit.PLATO_CATEGORIA));
-            mPrecioText.setText(extras.getString(PlatoEdit.PLATO_PRECIO));
+            Double precio = extras.getDouble(PlatoEdit.PLATO_PRECIO);
+
+            mPrecioText.setText(precio.toString());
+            //mPrecioText.setText(extras.getString(PlatoEdit.PLATO_PRECIO));
             mRowId = extras.getInt(PlatoEdit.PLATO_ID);
         }
     }
 
 
-    private boolean validarPlato(){
+    private Boolean validarPlato(){
         boolean valor = true;
+
         Double precioPlato = Double.parseDouble(mPrecioText.getText().toString());
+
+        //Depurando
+
+
+        //fin depuracion
+
+
+        /*
         listaPlatos = listaPlatosLD.getValue();
         int numeroDePlatos = listaPlatos.size();
 
         if(TextUtils.isEmpty(mNombreText.getText())
-           || TextUtils.isEmpty(mPrecioText.getText())
+          // || TextUtils.isEmpty(mPrecioText.getText())
            || TextUtils.isEmpty(mCategoriaText.getText())) {
             valor = false;
         } else if (TextUtils.equals(mCategoriaText.getText(), "PRIMERO")
@@ -146,7 +161,7 @@ public class PlatoEdit extends AppCompatActivity {
                     valor = false;
                 }
             }
-        }
+        }*/
         return valor;
     }
 

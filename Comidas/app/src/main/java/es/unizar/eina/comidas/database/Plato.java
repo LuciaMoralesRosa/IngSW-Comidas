@@ -24,7 +24,7 @@ public class Plato {
     /** Nombre del plato. No puede ser nulo. */
     @NonNull
     @ColumnInfo(name = "nombre")
-    private String nombre;
+    private String nombre; //UNIQUE
 
     /** Descripción del plato. Puede ser nulo. */
     @ColumnInfo(name = "descripcion")
@@ -52,12 +52,7 @@ public class Plato {
                  @NonNull Double precio) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        if (categoria == "PRIMERO" || categoria == "SEGUNDO" ||categoria == "POSTRE") {
-            this.categoria = categoria;
-        }
-        else {
-            this.categoria = "PRIMERO";
-        }
+        this.categoria = categoria;
         this.precio = precio;
     }
 
@@ -115,4 +110,20 @@ public class Plato {
         return this.precio;
     }
 
+
+    public void setNombre(@NonNull String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setCategoria(@NonNull String categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setPrecio(@NonNull Double precio) {
+        this.precio = precio;
+    }
 }
