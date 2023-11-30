@@ -120,7 +120,6 @@ public class PlatoEdit extends AppCompatActivity {
             mDescripcionText.setText(extras.getString(PlatoEdit.PLATO_DESCRIPCION));
             mCategoriaText.setText(extras.getString(PlatoEdit.PLATO_CATEGORIA));
             Double precio = extras.getDouble(PlatoEdit.PLATO_PRECIO);
-
             mPrecioText.setText(precio.toString());
             //mPrecioText.setText(extras.getString(PlatoEdit.PLATO_PRECIO));
             mRowId = extras.getInt(PlatoEdit.PLATO_ID);
@@ -134,14 +133,14 @@ public class PlatoEdit extends AppCompatActivity {
         Double precioPlato = Double.parseDouble(mPrecioText.getText().toString());
 
         //Depurando
+        listaPlatos = listaPlatosLD.getValue();
+        //int numeroDePlatos = listaPlatos.size();
 
 
         //fin depuracion
 
 
         /*
-        listaPlatos = listaPlatosLD.getValue();
-        int numeroDePlatos = listaPlatos.size();
 
         if(TextUtils.isEmpty(mNombreText.getText())
           // || TextUtils.isEmpty(mPrecioText.getText())
