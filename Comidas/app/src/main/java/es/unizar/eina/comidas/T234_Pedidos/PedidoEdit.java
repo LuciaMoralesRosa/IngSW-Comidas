@@ -1,0 +1,101 @@
+package es.unizar.eina.comidas.T234_Pedidos;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Button;
+import android.widget.EditText;
+
+import es.unizar.eina.T234_Comidas.R;
+
+/** Pantalla utilizada para la creación o edición de un pedido */
+public class PedidoEdit extends AppCompatActivity {
+
+    public static final String PEDIDO_NOMBRE_CLIENTE = "nombreClientePedido";
+    public static final String PEDIDO_TELEFONO_CLIENTE = "telefonoClientePedido";
+    public static final String PEDIDO_ESTADO = "estadoPedido";
+    public static final String PEDIDO_FECHA_RECOGIDA = "fechaPedidoRecogida";
+    public static final String PEDIDO_HORA_RECOGIDA = "horaPedidoRecogida";
+    public static final String PEDIDO_PRECIO = "precioPedido";
+    public static final String PEDIDO_ID = "id";
+
+    //Lista de platos y raciones ??
+
+    private EditText mNombreClienteText;
+
+    private EditText mTelefonoClienteText;
+
+    private EditText mEstadoText;
+    private EditText mFechaRecogidaText;
+    private EditText mHoraRecogidaText;
+
+    private EditText mPrecioPedidoText;
+
+    private Integer mRowId;
+
+    Button mSaveButton;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pedidoedit);
+
+        mNombreClienteText = findViewById(R.id.nombreClientePedido);
+        mTelefonoClienteText = findViewById(R.id.telefonoClientePedido);
+        mEstadoText = findViewById(R.id.estadoPedido);
+        mFechaRecogidaText = findViewById(R.id.fechaPedidoRecogida);
+        mHoraRecogidaText = findViewById(R.id.horaPedidoRecogida);
+       // mPrecioPedidoText = findViewById(R.id.precioPedido);
+
+        mSaveButton = findViewById(R.id.button_platos);
+        mSaveButton.setOnClickListener(view -> {
+            Intent replyIntent = new Intent();
+            if (TextUtils.isEmpty(mNombreClienteText.getText()) ||
+                TextUtils.isEmpty(mTelefonoClienteText.getText()) ||
+                TextUtils.isEmpty(mEstadoText.getText()) ||
+                TextUtils.isEmpty(mFechaRecogidaText.getText()) ||
+                TextUtils.isEmpty(mHoraRecogidaText.getText()))
+            {
+                setResult(RESULT_CANCELED, replyIntent);
+            } else {
+                replyIntent.putExtra(PedidoEdit.PEDIDO_NOMBRE_CLIENTE,
+                        mNombreClienteText.getText().toString());
+                replyIntent.putExtra(PedidoEdit.PEDIDO_TELEFONO_CLIENTE,
+                        mTelefonoClienteText.getText().toString());
+                replyIntent.putExtra(PedidoEdit.PEDIDO_ESTADO,
+                        mEstadoText.getText().toString());
+                replyIntent.putExtra(PedidoEdit.PEDIDO_FECHA_RECOGIDA,
+                        mFechaRecogidaText.getText());
+                replyIntent.putExtra(PedidoEdit.PEDIDO_HORA_RECOGIDA,
+                        mHoraRecogidaText.getText());
+                replyIntent.putExtra(PedidoEdit.PEDIDO_PRECIO, mPrecioPedidoText.getText());
+                       // calcularPrecioPedido());
+                if (mRowId != null) {
+                    replyIntent.putExtra(PedidoEdit.PEDIDO_ID, mRowId.intValue());
+                }
+                setResult(RESULT_OK, replyIntent);
+            }
+            finish();
+        });
+
+        populateFields();
+
+    }
+
+    private void populateFields () {
+        mRowId = null;
+        Bundle extras = getIntent().getExtras();
+        if (extras!=null) {
+            mNombreClienteText.setText(extras.getString(PedidoEdit.PEDIDO_NOMBRE_CLIENTE));
+            mTelefonoClienteText.setText(extras.getString(PedidoEdit.PEDIDO_TELEFONO_CLIENTE));
+            mEstadoText.setText(extras.getString(PedidoEdit.PEDIDO_ESTADO));
+            mFechaRecogidaText.setText(extras.getString(PedidoEdit.PEDIDO_FECHA_RECOGIDA));
+            mHoraRecogidaText.setText(extras.getString(PedidoEdit.PEDIDO_HORA_RECOGIDA));
+            mPrecioPedidoText.setText(extras.getString(PedidoEdit.PEDIDO_PRECIO));
+            mRowId = extras.getInt(PedidoEdit.PEDIDO_ID);
+        }
+    }
+
+}

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="@string/nombreAPP"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/black"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/secondColor"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="@string/EditCreate_Platos"
+            android:textSize="24sp"
+            tools:textAlignment="center" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black"
+        android:orientation="horizontal"></LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginTop="@dimen/big_padding"
+        android:shadowColor="@color/black"
+        android:text="@string/nombrePlato"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/nombrePlato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:background="@color/white"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_nombrePlato"
+        android:inputType="text|textAutoCorrect"
+        android:minHeight="@dimen/min_height"
+        android:paddingLeft="@dimen/small_padding"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginTop="@dimen/big_padding"
+        android:shadowColor="@color/black"
+        android:text="@string/descripcionPlato"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/descripcionPlato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:background="@color/white"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_descripcionPlato"
+        android:inputType="text|textLongMessage|textMultiLine"
+        android:minHeight="@dimen/description_height"
+        android:paddingLeft="@dimen/small_padding"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginTop="@dimen/big_padding"
+        android:shadowColor="@color/black"
+        android:text="@string/categoriaPlato"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/categoriaPlato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:background="@color/white"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_categoriaPlato"
+        android:inputType="text|textAutoCorrect"
+        android:minHeight="@dimen/min_height"
+        android:paddingLeft="@dimen/small_padding"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginTop="@dimen/big_padding"
+        android:shadowColor="@color/black"
+        android:text="@string/precioPlato"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/precioPlato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_padding"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:background="@color/white"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_precioPlato"
+        android:inputType="number"
+        android:minHeight="@dimen/min_height"
+        android:paddingLeft="@dimen/small_padding"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/button_platos"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="@dimen/big_padding"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/button_save"
+        android:textColor="@color/black"
+        android:textSize="22dp" />
+
+</LinearLayout>

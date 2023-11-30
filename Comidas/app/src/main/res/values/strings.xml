@@ -1,0 +1,71 @@
+<resources>
+    <!--
+    <string name="app_name">Notepad</string>
+    -->
+    <string name="hint_title">Type title ...</string>
+    <string name="hint_body">Type body ...</string>
+    <!--
+     <string name="button_save">Save</string>
+     <string name="empty_not_saved">Note not saved because title is empty.</string>
+      -->
+     <string name="add_note">Add note</string>
+     <string name="menu_delete">Eliminar</string>
+     <string name="menu_edit">Editar</string>
+    <string name="menu_send">Enviar</string>
+     <string name="title">Title</string>
+     <string name="body">Body</string>
+
+
+    <!-- General -->
+    <string name="button_save">Save</string>
+    <string name="app_name">T234_Comidas</string>
+
+
+    <!-- Plato -->
+    <string name="hint_nombrePlato">Escriba el nombre del plato</string>
+    <string name="hint_descripcionPlato">Escriba la descripcion del plato</string>
+    <string name="hint_categoriaPlato">Escoja la categoria del plato</string>
+    <string name="hint_precioPlato">Escriba el precio del plato</string>
+    <string name="empty_not_saved">Plato no guardado porque faltan campos por rellenar.</string>
+    <string name="empty_not_saved_full">Plato no guardado por falta de espacio.</string>
+    <string name="add_plato">Añadir Plato</string>
+    <string name="sort_platos_by_name">Ordenar por nombre</string>
+    <string name="sort_platos_by_category">Ordenar por categoria</string>
+    <string name="sort_platos">Ordenar por nombre y categoria</string>
+    <string name="delete_plato">Borrar Plato</string>
+    <string name="edit_plato">Editar Plato</string>
+
+    <string name="button_platos">Platos</string>
+
+    <string name="nombrePlato">Nombre del Plato</string>
+    <string name="descripcionPlato">Descripcion del Plato</string>
+    <string name="categoriaPlato">Categoria</string>
+    <string name="precioPlato">Precio</string>
+
+    <string name="nombreAPP">Aplicacion de comidas</string>
+    <string name="EditCreate_Platos">Platos</string>
+    <string name="EditCreate_Pedidos">Pedidos</string>
+
+
+    <!-- Pedido -->
+    <string name="hint_nombreCliente">Escriba el nombre del cliente</string>
+    <string name="hint_telefonoCliente">Escriba el teléfono del cliente</string>
+    <string name="hint_estadoPedido">Escoja el estado del pedido</string>
+    <string name="hint_fechaRecogida">Fecha</string>
+    <string name="hint_horaRecogida">Hora</string>
+    <string name="hint_precioPedido">Escriba el precio del pedido</string>
+
+    <string name="add_pedido">Añadir Pedido</string>
+    <string name="delete_pedido">Borrar Pedido</string>
+    <string name="edit_pedido">Editar Pedido</string>
+
+    <string name="button_pedidos">Pedidos</string>
+
+    <string name="nombreCliente">Nombre del Cliente</string>
+    <string name="telefonoCliente">Teléfono del Cliente</string>
+    <string name="estadoPedido">Estado</string>
+    <string name="momentoRecogida">Momento de recogida</string>
+    <string name="platosRaciones">Platos y raciones</string>
+    <string name="precioPedido">Precio</string>
+
+</resources>
