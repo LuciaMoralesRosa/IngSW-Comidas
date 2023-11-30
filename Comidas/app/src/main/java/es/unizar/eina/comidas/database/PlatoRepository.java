@@ -22,6 +22,8 @@ public class PlatoRepository {
     /** LiveData que contiene la lista de todos los platos ordenados. */
     private LiveData<List<Plato>> mAllPlatos;
 
+    //private int mNumeroDePlatos;
+
     /*
     Note that in order to unit test the PlatoRepository, you have to remove the Application
     dependency. This adds complexity and much more code, and this sample is not about testing.
@@ -38,7 +40,9 @@ public class PlatoRepository {
         PlatoRoomDatabase db = PlatoRoomDatabase.getDatabase(application);
         mPlatoDao = db.platoDao();
         mAllPlatos = mPlatoDao.getAllPlatos();
+    //    mNumeroDePlatos = mPlatoDao.getNumeroDePlatosDB();
     }
+
 
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
@@ -50,6 +54,10 @@ public class PlatoRepository {
     public LiveData<List<Plato>> getAllPlatos() {
         return mAllPlatos;
     }
+
+    //public int getNumeroDePlatos(){
+    //    return mNumeroDePlatos;
+    //}
 
     /**
      * Inserta un nuevo plato en la base de datos utilizando un hilo de ejecución separado.

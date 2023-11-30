@@ -54,11 +54,15 @@ public interface PlatoDao {
     void deleteAll();
 
     /**
-     * Obtiene una lista de todos los platos ordenados por nombre de forma ascendente.
+     * Obtiene una lista de todos los platos.
      *
-     * @return LiveData que contiene la lista de platos ordenados.
+     * @return LiveData que contiene la lista de platos.
      */
     @Query("SELECT * FROM plato")
     LiveData<List<Plato>> getAllPlatos();
+
+
+    @Query("SELECT COUNT(nombre) FROM plato")
+    Integer getNumeroDePlatosDB();
 }
 

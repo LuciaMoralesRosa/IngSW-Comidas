@@ -1,6 +1,7 @@
 package es.unizar.eina.comidas.T234_Platos;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -9,7 +10,10 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.List;
+
 import es.unizar.eina.T234_Comidas.R;
+import es.unizar.eina.comidas.database.Plato;
 //import es.unizar.eina.comidas.R;
 
 /**
@@ -52,6 +56,10 @@ public class PlatoEdit extends AppCompatActivity {
     Button mSaveButton;
 
     PlatoViewModel mPlatoViewModel;
+
+    List<Plato> listaPlatos;
+    LiveData<List<Plato>> listaPlatosLD;
+
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
      * interfaz de usuario, se configuran los listeners y se recuperan los datos pasados como
@@ -64,7 +72,8 @@ public class PlatoEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_platoedit);
         mPlatoViewModel = new ViewModelProvider(this).get(PlatoViewModel.class);
-        mPlatoViewModel.getAllPlatos();
+        listaPlatosLD = mPlatoViewModel.getAllPlatos();
+        //numeroDePlatos = mPlatoViewModel.getNumeroDePlatos();
 
         mNombreText = findViewById(R.id.nombrePlato);
         mDescripcionText = findViewById(R.id.descripcionPlato);
@@ -74,7 +83,7 @@ public class PlatoEdit extends AppCompatActivity {
         mSaveButton = findViewById(R.id.button_platos);
         mSaveButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
-            if (TextUtils.isEmpty(mNombreText.getText())) {
+            if (!validarPlato()) {
                 setResult(RESULT_CANCELED, replyIntent);
             } else {
                 replyIntent.putExtra(PlatoEdit.PLATO_NOMBRE, mNombreText.getText().toString());
@@ -110,6 +119,35 @@ public class PlatoEdit extends AppCompatActivity {
             mPrecioText.setText(extras.getString(PlatoEdit.PLATO_PRECIO));
             mRowId = extras.getInt(PlatoEdit.PLATO_ID);
         }
+    }
+
+
+    private boolean validarPlato(){
+        boolean valor = true;
+        Double precioPlato = Double.parseDouble(mPrecioText.getText().toString());
+        listaPlatos = listaPlatosLD.getValue();
+        int numeroDePlatos = listaPlatos.size();
+
+        if(TextUtils.isEmpty(mNombreText.getText())
+           || TextUtils.isEmpty(mPrecioText.getText())
+           || TextUtils.isEmpty(mCategoriaText.getText())) {
+            valor = false;
+        } else if (TextUtils.equals(mCategoriaText.getText(), "PRIMERO")
+           || TextUtils.equals(mCategoriaText.getText(), "SEGUNDO")
+           || TextUtils.equals(mCategoriaText.getText(), "POSTRE")) {
+            valor = false;
+        } else if (precioPlato < 0) {
+            valor = false;
+        } else if (numeroDePlatos >= 100) {
+            valor = false;
+        } else {
+            for(Plato plato : listaPlatos){
+                if(TextUtils.equals(mNombreText.getText(), plato.getNombre())){
+                    valor = false;
+                }
+            }
+        }
+        return valor;
     }
 
 }

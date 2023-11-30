@@ -22,6 +22,7 @@ public class PlatoViewModel extends AndroidViewModel {
     private PlatoRepository mRepository;
     /** LiveData que contiene la lista de todos los platos. */
     private final LiveData<List<Plato>> mAllPlatos;
+    //private final Integer mNumeroDePlatos;
 
     /**
      * Constructor de la clase. Inicializa el repositorio y obtiene la lista de todos los platos.
@@ -32,6 +33,7 @@ public class PlatoViewModel extends AndroidViewModel {
         super(application);
         mRepository = new PlatoRepository(application);
         mAllPlatos = mRepository.getAllPlatos();
+        //mNumeroDePlatos = mRepository.getNumeroDePlatos();
     }
 
     /**
@@ -42,6 +44,10 @@ public class PlatoViewModel extends AndroidViewModel {
     LiveData<List<Plato>> getAllPlatos() {
         return mRepository.getAllPlatos();
     }
+
+    //Integer getNumeroDePlatos(){
+    //    return mRepository.getNumeroDePlatos();
+    //}
 
     /**
      * Inserta un nuevo plato en la base de datos a través del repositorio.
