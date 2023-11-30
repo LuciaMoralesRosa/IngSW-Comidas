@@ -1,6 +1,7 @@
 package es.unizar.eina.comidas.T234_Platos;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ public class PlatoEdit extends AppCompatActivity {
     /** Botón para guardar o actualizar la información del plato. */
     Button mSaveButton;
 
+    PlatoViewModel mPlatoViewModel;
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
      * interfaz de usuario, se configuran los listeners y se recuperan los datos pasados como
@@ -61,6 +63,8 @@ public class PlatoEdit extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_platoedit);
+        mPlatoViewModel = new ViewModelProvider(this).get(PlatoViewModel.class);
+        mPlatoViewModel.getAllPlatos();
 
         mNombreText = findViewById(R.id.nombrePlato);
         mDescripcionText = findViewById(R.id.descripcionPlato);

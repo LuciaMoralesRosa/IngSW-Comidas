@@ -37,7 +37,7 @@ public class PlatoRepository {
     public PlatoRepository(Application application) {
         PlatoRoomDatabase db = PlatoRoomDatabase.getDatabase(application);
         mPlatoDao = db.platoDao();
-        mAllPlatos = mPlatoDao.getOrderedPlatos();
+        mAllPlatos = mPlatoDao.getAllPlatos();
     }
 
     // Room executes all queries on a separate thread.
@@ -47,18 +47,8 @@ public class PlatoRepository {
      *
      * @return LiveData que contiene la lista de todos los platos ordenados.
      */
-    public LiveData<List<Plato>> getAllPlatos(Boolean nombre, Boolean categoria) {
-        if (nombre && categoria) {
-            return mPlatoDao.getOrderedPlatos();
-        }
-        else if (nombre) {
-            return mPlatoDao.getOrderedPlatosByName();
-        } else if (categoria) {
-            return mPlatoDao.getOrderedPlatosByCategoria();
-        }
-        else {
-            return mAllPlatos;
-        }
+    public LiveData<List<Plato>> getAllPlatos() {
+        return mAllPlatos;
     }
 
     /**

@@ -72,7 +72,7 @@ public class Platos extends AppCompatActivity {
 
         mPlatoViewModel = new ViewModelProvider(this).get(PlatoViewModel.class);
 
-        mPlatoViewModel.getAllPlatos(true, true).observe(this, platos -> {
+        mPlatoViewModel.getAllPlatos().observe(this, platos -> {
             // Actualiza la copia en caché de los platos en el adaptador.
             mAdapter.submitList(platos);
         });
@@ -179,15 +179,15 @@ public class Platos extends AppCompatActivity {
                 editPlato(current);
                 return true;
             case ORDER_PLATOS_BY_NAME:
-                mPlatoViewModel.getAllPlatos(true, false);
+                mPlatoViewModel.getAllPlatos();
                 sortPlato();
                 return true;
             case ORDER_PLATOS_BY_CATEGORY:
-                mPlatoViewModel.getAllPlatos(false, true);
+                mPlatoViewModel.getAllPlatos();
                 sortPlato();
                 return true;
             case ORDER_PLATOS:
-                mPlatoViewModel.getAllPlatos(true, true);
+                mPlatoViewModel.getAllPlatos();
                 sortPlato();
                 return true;
         }

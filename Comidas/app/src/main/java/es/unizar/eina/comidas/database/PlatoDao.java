@@ -58,23 +58,7 @@ public interface PlatoDao {
      *
      * @return LiveData que contiene la lista de platos ordenados.
      */
-    @Query("SELECT * FROM plato ORDER BY nombre ASC")
-    LiveData<List<Plato>> getOrderedPlatosByName();
-
-    /**
-     * Obtiene una lista de todos los platos ordenados por categoria de forma ascendente.
-     *
-     * @return LiveData que contiene la lista de platos ordenados.
-     */
-    @Query("SELECT * FROM plato ORDER BY categoria ASC")
-    LiveData<List<Plato>> getOrderedPlatosByCategoria();
-
-    /**
-     * Obtiene una lista de todos los platos ordenados por categoria y nombre de forma ascendente.
-     *
-     * @return LiveData que contiene la lista de platos ordenados.
-     */
-    @Query("SELECT * FROM plato ORDER BY categoria AND nombre ASC")
-    LiveData<List<Plato>> getOrderedPlatos();
+    @Query("SELECT * FROM plato")
+    LiveData<List<Plato>> getAllPlatos();
 }
 

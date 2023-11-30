@@ -31,7 +31,7 @@ public class PlatoViewModel extends AndroidViewModel {
     public PlatoViewModel(Application application) {
         super(application);
         mRepository = new PlatoRepository(application);
-        mAllPlatos = mRepository.getAllPlatos(true, true);
+        mAllPlatos = mRepository.getAllPlatos();
     }
 
     /**
@@ -39,8 +39,8 @@ public class PlatoViewModel extends AndroidViewModel {
      *
      * @return LiveData que contiene la lista de todos los platos.
      */
-    LiveData<List<Plato>> getAllPlatos(Boolean nombre, Boolean categoria) {
-        return mRepository.getAllPlatos(nombre, categoria);
+    LiveData<List<Plato>> getAllPlatos() {
+        return mRepository.getAllPlatos();
     }
 
     /**
