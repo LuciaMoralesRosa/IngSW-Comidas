@@ -72,7 +72,7 @@ public class PlatoEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_platoedit);
         mPlatoViewModel = new ViewModelProvider(this).get(PlatoViewModel.class);
-        listaPlatosLD = mPlatoViewModel.getAllPlatos();
+        //listaPlatosLD = mPlatoViewModel.getAllPlatos();
         //numeroDePlatos = mPlatoViewModel.getNumeroDePlatos();
 
         mNombreText = (EditText) findViewById(R.id.nombrePlato);
@@ -131,36 +131,46 @@ public class PlatoEdit extends AppCompatActivity {
         boolean valor = true;
 
         Double precioPlato = Double.parseDouble(mPrecioText.getText().toString());
+        String primero = "PRIMERO";
+        String segundo = "SEGUNDO";
+        String postre = "POSTRE";
+        String nombreNuevoPlato = mNombreText.getText().toString();
+        String categoria = mCategoriaText.getText().toString();
 
         //Depurando
-        listaPlatos = listaPlatosLD.getValue();
-        //int numeroDePlatos = listaPlatos.size();
-
+        if(TextUtils.isEmpty(mNombreText.getText())
+            || TextUtils.isEmpty(mCategoriaText.getText())
+            || TextUtils.isEmpty(mPrecioText.getText())) {
+            valor = false;
+        } else if (!(categoria.equals(primero)
+            || categoria.equals(segundo) || categoria.equals(postre))) {
+            valor = false;
+        } else if (precioPlato < 0) {
+            valor = false;
+        } else{
+            int numeroDePlatos = 0;
+            String nombrePlato;
+            LiveData<List<Plato>> listaPlatosLD = mPlatoViewModel.getAllPlatos();
+            List<Plato> listaPlatos = listaPlatosLD.getValue();
+            for(Plato plato : listaPlatos){
+                numeroDePlatos++;
+                nombrePlato = plato.getNombre();
+                if(nombreNuevoPlato.equals(nombrePlato)){
+                    valor = false;
+                }
+            }
+            if(numeroDePlatos >= 100){
+                valor = false;
+            }
+        }
 
         //fin depuracion
 
 
-        /*
+        //A revisar:
+        //Cuando precio == null
+        //Lo del for de platos, hay algo que falla ahi
 
-        if(TextUtils.isEmpty(mNombreText.getText())
-          // || TextUtils.isEmpty(mPrecioText.getText())
-           || TextUtils.isEmpty(mCategoriaText.getText())) {
-            valor = false;
-        } else if (TextUtils.equals(mCategoriaText.getText(), "PRIMERO")
-           || TextUtils.equals(mCategoriaText.getText(), "SEGUNDO")
-           || TextUtils.equals(mCategoriaText.getText(), "POSTRE")) {
-            valor = false;
-        } else if (precioPlato < 0) {
-            valor = false;
-        } else if (numeroDePlatos >= 100) {
-            valor = false;
-        } else {
-            for(Plato plato : listaPlatos){
-                if(TextUtils.equals(mNombreText.getText(), plato.getNombre())){
-                    valor = false;
-                }
-            }
-        }*/
         return valor;
     }
 
