@@ -37,7 +37,7 @@ public class PlatoRepository {
      * @param application La aplicación en la que se encuentra el repositorio.
      */
     public PlatoRepository(Application application) {
-        PlatoRoomDatabase db = PlatoRoomDatabase.getDatabase(application);
+        ComidasRoomDatabase db = ComidasRoomDatabase.getDatabase(application);
         mPlatoDao = db.platoDao();
         mAllPlatos = mPlatoDao.getAllPlatos();
     //    mNumeroDePlatos = mPlatoDao.getNumeroDePlatosDB();
@@ -69,7 +69,7 @@ public class PlatoRepository {
         final long[] result = {0};
         // You must call this on a non-UI thread or your app will throw an exception. Room ensures
         // that you're not doing any long running operations on the main thread, blocking the UI.
-        PlatoRoomDatabase.databaseWriteExecutor.execute(() -> {
+        ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
             result[0] = mPlatoDao.insert(plato);
         });
         return result[0];
@@ -83,7 +83,7 @@ public class PlatoRepository {
      */
     public int update(Plato plato) {
         final int[] result = {0};
-        PlatoRoomDatabase.databaseWriteExecutor.execute(() -> {
+        ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
             result[0] = mPlatoDao.update(plato);
         });
         return result[0];
@@ -97,7 +97,7 @@ public class PlatoRepository {
      */
     public int delete(Plato plato) {
         final int[] result = {0};
-        PlatoRoomDatabase.databaseWriteExecutor.execute(() -> {
+        ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
             result[0] = mPlatoDao.delete(plato);
         });
         return result[0];

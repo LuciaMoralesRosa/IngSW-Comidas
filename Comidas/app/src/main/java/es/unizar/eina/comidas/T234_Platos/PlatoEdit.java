@@ -147,29 +147,38 @@ public class PlatoEdit extends AppCompatActivity {
             valor = false;
         } else if (precioPlato < 0) {
             valor = false;
-        } else{
+        }
+
+        else{
             int numeroDePlatos = 0;
             String nombrePlato;
             LiveData<List<Plato>> listaPlatosLD = mPlatoViewModel.getAllPlatos();
             List<Plato> listaPlatos = listaPlatosLD.getValue();
-            for(Plato plato : listaPlatos){
-                numeroDePlatos++;
-                nombrePlato = plato.getNombre();
-                if(nombreNuevoPlato.equals(nombrePlato)){
+
+            /* Da error la lista de platos
+            if(listaPlatos != null){
+                for(Plato plato : listaPlatos){
+                    numeroDePlatos++;
+                    nombrePlato = plato.getNombre();
+                    if(nombreNuevoPlato.compareToIgnoreCase(nombrePlato) == 0){
+                        valor = false;
+                        break;
+                    }
+                    else{
+                        valor = true;
+                    }
+                }
+                if(numeroDePlatos >= 100){
                     valor = false;
                 }
             }
-            if(numeroDePlatos >= 100){
-                valor = false;
-            }
+            */
         }
 
         //fin depuracion
 
-
         //A revisar:
-        //Cuando precio == null
-        //Lo del for de platos, hay algo que falla ahi
+        //Lo del for de platos, hay algo que falla ahi -> Da error la lista
 
         return valor;
     }

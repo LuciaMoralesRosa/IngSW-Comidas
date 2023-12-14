@@ -2,9 +2,7 @@ package es.unizar.eina.comidas.database;
 
 
 import android.app.Application;
-
 import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class PedidoRepository {
@@ -17,7 +15,7 @@ public class PedidoRepository {
     // See the BasicSample in the android-architecture-components repository at
     // https://github.com/googlesamples
     public PedidoRepository(Application application) {
-        PedidoRoomDatabase db = PedidoRoomDatabase.getDatabase(application);
+        ComidasRoomDatabase db = ComidasRoomDatabase.getDatabase(application);
         mPedidoDao = db.pedidoDao();
         mAllPedidos = mPedidoDao.getOrderedPedidos();
     }
@@ -36,7 +34,7 @@ public class PedidoRepository {
         final long[] result = {0};
         // You must call this on a non-UI thread or your app will throw an exception. Room ensures
         // that you're not doing any long running operations on the main thread, blocking the UI.
-        PedidoRoomDatabase.databaseWriteExecutor.execute(() -> {
+        ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
             result[0] = mPedidoDao.insert(pedido);
         });
         return result[0];
@@ -48,7 +46,7 @@ public class PedidoRepository {
      */
     public int update(Pedido pedido) {
         final int[] result = {0};
-        PedidoRoomDatabase.databaseWriteExecutor.execute(() -> {
+        ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
             result[0] = mPedidoDao.update(pedido);
         });
         return result[0];
@@ -60,7 +58,7 @@ public class PedidoRepository {
      */
     public int delete(Pedido pedido) {
         final int[] result = {0};
-        PedidoRoomDatabase.databaseWriteExecutor.execute(() -> {
+        ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
             result[0] = mPedidoDao.delete(pedido);
         });
         return result[0];
