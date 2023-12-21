@@ -1,7 +1,7 @@
 package es.unizar.eina.comidas.T234_Platos;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,9 +10,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import es.unizar.eina.comidas.database.Plato;
 import es.unizar.eina.T234_Comidas.R;
@@ -24,7 +35,7 @@ import es.unizar.eina.T234_Comidas.R;
  * @author Lucia Morales
  * @author Curro Valero
  */
-public class Platos extends AppCompatActivity {
+public class Platos extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     /** ViewModel para gestionar los datos relacionados con los platos. */
     private PlatoViewModel mPlatoViewModel;
@@ -52,8 +63,6 @@ public class Platos extends AppCompatActivity {
     /** Botón flotante para agregar un nuevo plato. */
     FloatingActionButton mFab;
 
-    /** Botón flotante para ordenar los platos*/
-    FloatingActionButton mOrdenar;
 
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
@@ -65,6 +74,7 @@ public class Platos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_platos);
+
         mRecyclerView = findViewById(R.id.recyclerview);
         mAdapter = new PlatoListAdapter(new PlatoListAdapter.PlatoDiff());
         mRecyclerView.setAdapter(mAdapter);
@@ -82,23 +92,18 @@ public class Platos extends AppCompatActivity {
             createPlato();
         });
 
+        Spinner spinner =findViewById(R.id.spinnerOrdenar);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.
+                createFromResource(this, R.array.ordenarPlatos,
+                        android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+
         // It doesn't affect if we comment the following instruction
         registerForContextMenu(mRecyclerView);
 
-    }
-
-    /**
-     * Crea el menú de opciones de la actividad.
-     *
-     * @param menu El menú en el que se colocarán las opciones.
-     * @return True para mostrar el menú, false de lo contrario.
-     */
-    public boolean onCreateOptionsMenu(Menu menu) {
-        boolean result = super.onCreateOptionsMenu(menu);
-        menu.add(Menu.NONE, ORDER_PLATOS_BY_NAME, Menu.NONE, R.string.sort_platos_by_name);
-        menu.add(Menu.NONE, ORDER_PLATOS_BY_CATEGORY, Menu.NONE, R.string.sort_platos_by_category);
-        menu.add(Menu.NONE, ORDER_PLATOS, Menu.NONE, R.string.sort_platos);
-        return result;
     }
 
     /**
@@ -178,18 +183,6 @@ public class Platos extends AppCompatActivity {
             case EDIT_ID:
                 editPlato(current);
                 return true;
-            case ORDER_PLATOS_BY_NAME:
-                mPlatoViewModel.getAllPlatos();
-                sortPlato();
-                return true;
-            case ORDER_PLATOS_BY_CATEGORY:
-                mPlatoViewModel.getAllPlatos();
-                sortPlato();
-                return true;
-            case ORDER_PLATOS:
-                mPlatoViewModel.getAllPlatos();
-                sortPlato();
-                return true;
         }
         return super.onContextItemSelected(item);
     }
@@ -200,11 +193,6 @@ public class Platos extends AppCompatActivity {
     private void createPlato() {
         Intent intent = new Intent(this, PlatoEdit.class);
         startActivityForResult(intent, ACTIVITY_CREATE);
-    }
-
-    private void sortPlato(){
-        Intent intent = new Intent(this, Platos.class);
-        startActivityForResult(intent, ACTIVITY_SORT);
     }
 
     /**
@@ -222,4 +210,45 @@ public class Platos extends AppCompatActivity {
         startActivityForResult(intent, ACTIVITY_EDIT);
     }
 
+    /*private void ordenarPlatos(Boolean nombre, Boolean categoria) {
+        List<Plato> listaPlatos = ListaDePlatosActual.getValue();
+        if(categoria && nombre) {
+            listaPlatos.sort(Comparator.comparing(Plato::getNombre)
+                    .thenComparing(Plato::getCategoria));
+        }
+        else if(nombre) {
+            listaPlatos.sort(Comparator.comparing(Plato::getNombre));
+        }
+        else {
+            listaPlatos.sort(Comparator.comparing(Plato::getCategoria));
+        }
+        mAdapter.submitList(listaPlatos);
+    }*/
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        mPlatoViewModel = new ViewModelProvider(this).get(PlatoViewModel.class);
+        mPlatoViewModel.getAllPlatos().observe(this, platos -> {
+            List<Plato> listaPlatos = new ArrayList<>(platos);
+            String itemSelected = parent.getItemAtPosition(position).toString();
+            switch (itemSelected) {
+                case "Ordenar por nombre":
+                    listaPlatos.sort(Comparator.comparing(Plato::getNombre));
+                    break;
+                case "Ordenar por categoria":
+                    listaPlatos.sort(Comparator.comparing(Plato::getCategoria));
+                    break;
+                case "Ordenar por nombre y categoria":
+                    listaPlatos.sort(Comparator.comparing(Plato::getCategoria).
+                            thenComparing(Plato::getNombre));
+                    break;
+            }
+            mAdapter.submitList(listaPlatos);
+        });
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

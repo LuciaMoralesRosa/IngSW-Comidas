@@ -12,8 +12,7 @@ import androidx.room.PrimaryKey;
  * @author Lucia Morales
  * @author Curro Valero
  */
-@Entity(tableName = "plato"
-)
+@Entity(tableName = "plato")
 public class Plato {
 
     /** Identificador único del plato, generado automáticamente por la base de datos. */

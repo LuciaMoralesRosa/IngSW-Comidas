@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -28,5 +29,8 @@ public interface PedidoDao {
 
     @Query("SELECT * FROM pedido ORDER BY nombreCliente ASC")
     LiveData<List<Pedido>> getOrderedPedidos();
-}
 
+    //@Transaction
+    //@Query("SELECT * FROM pedido")
+    //public List<RacionesConPlatos> getRacionesConPlatos();
+}

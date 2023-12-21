@@ -67,5 +67,12 @@
     <string name="momentoRecogida">Momento de recogida</string>
     <string name="platosRaciones">Platos y raciones</string>
     <string name="precioPedido">Precio</string>
+    
+    
+    <string-array name="ordenarPlatos">
+        <item>Ordenar por nombre</item>
+        <item>Ordenar por categoria</item>
+        <item>Ordenar por nombre y categoria</item>
+    </string-array>
 
 </resources>
