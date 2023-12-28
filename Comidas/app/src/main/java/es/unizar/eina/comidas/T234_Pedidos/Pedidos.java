@@ -39,7 +39,7 @@ import java.util.List;
 import es.unizar.eina.send.*;
 /** Pantalla con el listado de pedidos de la aplicación Comidas */
 
-public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SendImplementor{
+public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
 
     private Activity sourceActivity;
@@ -109,17 +109,6 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
         // It doesn't affect if we comment the following instruction
         registerForContextMenu(mRecyclerView);
     }
-
-    @Override
-    public void setSourceActivity(Activity source) {
-        this.sourceActivity = source;
-    }
-
-    @Override
-    public Activity getSourceActivity() {
-        return this.sourceActivity;
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -200,6 +189,7 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
 
     private void createPedido() {
         Intent intent = new Intent(this, PedidoEdit.class);
+        intent.putExtra(PedidoEdit.PEDIDO_ESTADO, "SOLICITADO");
         startActivityForResult(intent, ACTIVITY_CREATE);
     }
 
@@ -213,13 +203,6 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
         intent.putExtra(PedidoEdit.PEDIDO_FECHA_RECOGIDA, current.getFechaRecogida());
         intent.putExtra(PedidoEdit.PEDIDO_ID, current.getId());
         startActivityForResult(intent, ACTIVITY_EDIT);
-    }
-
-
-
-    @Override
-    public void send(String phone, String message) {
-
     }
 
     private void sendPedido(Pedido current){

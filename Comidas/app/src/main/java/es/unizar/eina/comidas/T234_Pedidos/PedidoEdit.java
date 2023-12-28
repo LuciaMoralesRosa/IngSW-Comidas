@@ -58,16 +58,16 @@ public class PedidoEdit extends AppCompatActivity {
             if (!validarPedido()){
                 setResult(RESULT_CANCELED, replyIntent);
             } else {
-                replyIntent.putExtra(PedidoEdit.PEDIDO_NOMBRE_CLIENTE,
-                        mNombreClienteText.getText().toString());
-                replyIntent.putExtra(PedidoEdit.PEDIDO_TELEFONO_CLIENTE,
-                        mTelefonoClienteText.getText().toString());
-                replyIntent.putExtra(PedidoEdit.PEDIDO_ESTADO,
-                        mEstadoText.getText().toString());
-                replyIntent.putExtra(PedidoEdit.PEDIDO_FECHA_RECOGIDA,
-                        mFechaRecogidaText.getText());
-                replyIntent.putExtra(PedidoEdit.PEDIDO_HORA_RECOGIDA,
-                        mHoraRecogidaText.getText());
+                String nombreCliente = (String) mNombreClienteText.getText().toString();
+                replyIntent.putExtra(PedidoEdit.PEDIDO_NOMBRE_CLIENTE, nombreCliente);
+                Integer telefono = Integer.parseInt(mTelefonoClienteText.getText().toString());
+                replyIntent.putExtra(PedidoEdit.PEDIDO_TELEFONO_CLIENTE, telefono);
+                String estado = (String) mEstadoText.getText().toString();
+                replyIntent.putExtra(PedidoEdit.PEDIDO_ESTADO, estado);
+                String fecha = mFechaRecogidaText.getText().toString();
+                replyIntent.putExtra(PedidoEdit.PEDIDO_FECHA_RECOGIDA, fecha);
+                String hora = mHoraRecogidaText.getText().toString();
+                replyIntent.putExtra(PedidoEdit.PEDIDO_HORA_RECOGIDA, hora);
                 Double precioPedido = Double.parseDouble(calcularPrecioPedido());
                 replyIntent.putExtra(PedidoEdit.PEDIDO_PRECIO, precioPedido);
                 if (mRowId != null) {
@@ -81,14 +81,14 @@ public class PedidoEdit extends AppCompatActivity {
 
     }
 
-
     private void populateFields () {
         mRowId = null;
         Bundle extras = getIntent().getExtras();
 
         if (extras!=null) {
             mNombreClienteText.setText(extras.getString(PedidoEdit.PEDIDO_NOMBRE_CLIENTE));
-            mTelefonoClienteText.setText(extras.getString(PedidoEdit.PEDIDO_TELEFONO_CLIENTE));
+            Integer telefono = extras.getInt(PedidoEdit.PEDIDO_TELEFONO_CLIENTE);
+            mTelefonoClienteText.setText(telefono.toString());
             mEstadoText.setText(extras.getString(PedidoEdit.PEDIDO_ESTADO));
             mFechaRecogidaText.setText(extras.getString(PedidoEdit.PEDIDO_FECHA_RECOGIDA));
             mHoraRecogidaText.setText(extras.getString(PedidoEdit.PEDIDO_HORA_RECOGIDA));

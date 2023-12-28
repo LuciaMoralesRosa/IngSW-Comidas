@@ -132,7 +132,6 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         Bundle extras = data.getExtras();
 
         if (resultCode != RESULT_OK) {
