@@ -1,5 +1,7 @@
 package es.unizar.eina.comidas.T234_Pedidos;
 
+import es.unizar.eina.comidas.T234_Platos.PlatoViewModel;
+import es.unizar.eina.comidas.database.Plato;
 import es.unizar.eina.send.SendImplementor;
 
 
@@ -7,6 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +31,14 @@ import android.content.Intent ;
 import android.content.pm.PackageInfo ;
 import android.content.pm.PackageManager;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import es.unizar.eina.send.*;
 /** Pantalla con el listado de pedidos de la aplicación Comidas */
 
-public class Pedidos extends AppCompatActivity {
+public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private PedidoViewModel mPedidoViewModel;
 
     public static final int ACTIVITY_CREATE = 1;
@@ -51,8 +61,8 @@ public class Pedidos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_platos);
-        mRecyclerView = findViewById(R.id.recyclerview);
+        setContentView(R.layout.activity_pedidos);
+        mRecyclerView = findViewById(R.id.recyclerview_Pedidos);
         mAdapter = new PedidoListAdapter(new PedidoListAdapter.PedidoDiff());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -69,16 +79,25 @@ public class Pedidos extends AppCompatActivity {
             createPedido();
         });
 
+        Spinner spinner = findViewById(R.id.spinnerOrdenar_Pedidos);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.
+                createFromResource(this, R.array.ordenarPedidos,
+                        android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
         // It doesn't affect if we comment the following instruction
         registerForContextMenu(mRecyclerView);
 
+
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
+    /*public boolean onCreateOptionsMenu(Menu menu) {
         boolean result = super.onCreateOptionsMenu(menu);
         menu.add(Menu.NONE, INSERT_ID, Menu.NONE, R.string.add_pedido);
         return result;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -92,7 +111,6 @@ public class Pedidos extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         Bundle extras = data.getExtras();
 
         if (resultCode != RESULT_OK) {
@@ -113,7 +131,8 @@ public class Pedidos extends AppCompatActivity {
                     break;
                 case ACTIVITY_EDIT: //Edicion de un pedido
                     int id = extras.getInt(PedidoEdit.PEDIDO_ID);
-                    Pedido updatedPedido = new Pedido(extras.getString(PedidoEdit.PEDIDO_NOMBRE_CLIENTE)
+                    Pedido updatedPedido = new Pedido(
+                              extras.getString(PedidoEdit.PEDIDO_NOMBRE_CLIENTE)
                             , extras.getInt(PedidoEdit.PEDIDO_TELEFONO_CLIENTE)
                             , extras.getString(PedidoEdit.PEDIDO_ESTADO)
                             , extras.getString(PedidoEdit.PEDIDO_FECHA_RECOGIDA)
@@ -122,6 +141,7 @@ public class Pedidos extends AppCompatActivity {
                     updatedPedido.setId(id);
                     mPedidoViewModel.update(updatedPedido);
                     break;
+
                 default:
                     break;
             }
@@ -143,6 +163,7 @@ public class Pedidos extends AppCompatActivity {
                 return true;
             case SEND_ID:
                 sendPedido(current);
+                return true;
         }
         return super.onContextItemSelected(item);
     }
@@ -158,9 +179,9 @@ public class Pedidos extends AppCompatActivity {
         intent.putExtra(PedidoEdit.PEDIDO_TELEFONO_CLIENTE, current.getTelefonoCliente());
         intent.putExtra(PedidoEdit.PEDIDO_ESTADO, current.getEstado());
         intent.putExtra(PedidoEdit.PEDIDO_PRECIO, current.getPrecioPedido());
-        intent.putExtra(PedidoEdit.PEDIDO_ID, current.getId());
         intent.putExtra(PedidoEdit.PEDIDO_HORA_RECOGIDA, current.getHoraRecogida());
         intent.putExtra(PedidoEdit.PEDIDO_FECHA_RECOGIDA, current.getFechaRecogida());
+        intent.putExtra(PedidoEdit.PEDIDO_ID, current.getId());
         startActivityForResult(intent, ACTIVITY_EDIT);
     }
     private void sendPedido(Pedido current){
@@ -189,5 +210,38 @@ public class Pedidos extends AppCompatActivity {
             Toast.makeText(getSourceActivity() , " WhatsApp not Installed ",
                             Toast.LENGTH_SHORT).show() ;
         }*/
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        mPedidoViewModel = new ViewModelProvider(this).get(PedidoViewModel.class);
+        mPedidoViewModel.getAllPedidos().observe(this, pedidos -> {
+            List<Pedido> listaPedidos = new ArrayList<>(pedidos);
+            String itemSelected = parent.getItemAtPosition(position).toString();
+            switch (itemSelected) {
+                case "Ordenar por nombre del cliente":
+                    listaPedidos.sort(Comparator.comparing(Pedido::getNombreCliente));
+                    break;
+                case "Ordenar por telefono":
+                    listaPedidos.sort(Comparator.comparing(Pedido::getTelefonoCliente));
+                    break;
+                case "Ordenar por momento de recogida":
+                    listaPedidos.sort(Comparator.comparing(Pedido::getFechaRecogida).
+                            thenComparing(Pedido::getHoraRecogida));
+                    break;
+                case "Ordenar por todo":
+                    listaPedidos.sort(Comparator.comparing(Pedido::getNombreCliente).
+                            thenComparing(Pedido::getTelefonoCliente).
+                            thenComparing(Pedido::getFechaRecogida).
+                            thenComparing(Pedido::getHoraRecogida));
+                    break;
+            }
+            mAdapter.submitList(listaPedidos);
+        });
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

@@ -94,6 +94,7 @@ public class Pedido{
     public String getHoraRecogida(){
         return this.horaRecogida;
     }
+
     /** Devuelve el precio del pedido */
     public Double getPrecioPedido(){
         return this.precioPedido;

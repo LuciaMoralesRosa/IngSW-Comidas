@@ -43,18 +43,12 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
     public static final int ACTIVITY_CREATE = 1;
     /** Código de solicitud para la edición de un plato existente. */
     public static final int ACTIVITY_EDIT = 2;
-    /** Código de solicitud para la ordenacion de los platos existentes. */
-    public static final int ACTIVITY_SORT = 3;
     /** Identificador del elemento de menú para agregar un nuevo plato. */
     static final int INSERT_ID = Menu.FIRST;
     /** Identificador del elemento de menú para eliminar un plato. */
     static final int DELETE_ID = Menu.FIRST + 1;
     /** Identificador del elemento de menú para editar un plato. */
     static final int EDIT_ID = Menu.FIRST + 2;
-
-    static final int ORDER_PLATOS_BY_NAME = Menu.FIRST + 3;
-    static final int ORDER_PLATOS_BY_CATEGORY = Menu.FIRST + 4;
-    static final int ORDER_PLATOS = Menu.FIRST + 5;
 
     /** Vista de reciclaje para mostrar la lista de platos. */
     RecyclerView mRecyclerView;

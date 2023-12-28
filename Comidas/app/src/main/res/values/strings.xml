@@ -53,7 +53,7 @@
     <string name="hint_estadoPedido">Escoja el estado del pedido</string>
     <string name="hint_fechaRecogida">Fecha</string>
     <string name="hint_horaRecogida">Hora</string>
-    <string name="hint_precioPedido">Escriba el precio del pedido</string>
+    <string name="hint_precioPedido">Precio del pedido</string>
 
     <string name="add_pedido">Añadir Pedido</string>
     <string name="delete_pedido">Borrar Pedido</string>
@@ -66,13 +66,20 @@
     <string name="estadoPedido">Estado</string>
     <string name="momentoRecogida">Momento de recogida</string>
     <string name="platosRaciones">Platos y raciones</string>
-    <string name="precioPedido">Precio</string>
+    <string name="precioPedido">Precio del pedido</string>
     
     
     <string-array name="ordenarPlatos">
         <item>Ordenar por nombre</item>
         <item>Ordenar por categoria</item>
         <item>Ordenar por nombre y categoria</item>
+    </string-array>
+
+    <string-array name="ordenarPedidos">
+        <item>Ordenar por nombre de cliente</item>
+        <item>Ordenar por telefono</item>
+        <item>Ordenar por momento de recogida</item>
+        <item>Ordenar por todo</item>
     </string-array>
 
 </resources>

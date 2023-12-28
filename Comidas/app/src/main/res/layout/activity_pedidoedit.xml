@@ -167,27 +167,30 @@
         android:layout_marginLeft="@dimen/big_padding"
         android:layout_marginTop="@dimen/big_padding"
         android:shadowColor="@color/black"
-        android:text="@string/momentoRecogida"
+        android:text="@string/precioPedido"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="250dp"
+        android:id="@+id/precioPedido"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:inputType="date"
-        android:text="@string/hint_fechaRecogida"
-        android:textAlignment="textStart"
+        android:layout_marginLeft="@dimen/big_padding"
+        android:layout_marginRight="@dimen/big_padding"
+        android:background="@color/white"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_precioPedido"
+        android:inputType="text|textAutoCorrect"
+        android:minHeight="@dimen/min_height"
+        android:paddingLeft="@dimen/small_padding"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/button_platos"
+        android:id="@+id/button_pedidos"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="@dimen/big_padding"
         android:backgroundTint="@color/colorAccent"
-        android:text="@string/edit_pedido"
+        android:text="@string/button_save"
         android:textColor="@color/black"
         android:textSize="22dp" />
 
