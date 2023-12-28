@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.unizar.eina.T234_Comidas.R;
@@ -56,9 +57,14 @@ public class PlatoEdit extends AppCompatActivity {
     Button mSaveButton;
 
     PlatoViewModel mPlatoViewModel;
+    ArrayList<String> listaDeNombres;
 
-    List<Plato> listaPlatos;
-    LiveData<List<Plato>> listaPlatosLD;
+    //Errores
+    public static final int RESULT_CANCELED_PRECIO = 2;
+    public static final int RESULT_CANCELED_CATEGORIA = 3;
+    public static final int RESULT_CANCELED_UNICIDAD = 4;
+
+    public static int RESULT_FINAL;
 
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
@@ -80,11 +86,18 @@ public class PlatoEdit extends AppCompatActivity {
         mCategoriaText = (EditText) findViewById(R.id.categoriaPlato);
         mPrecioText = (EditText) findViewById(R.id.precioPlato);
 
+        //Recuperar lista de nombres
+        listaDeNombres = new ArrayList<>();
+        Bundle bundle = new Bundle();
+        bundle = getIntent().getBundleExtra("listaNombres");
+        //recuperamos la lista del bundle
+        listaDeNombres = (ArrayList<String>) bundle.getSerializable("listaNombresPlatos");
+
         mSaveButton = findViewById(R.id.button_platos);
         mSaveButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
             if (!validarPlato()) {
-                setResult(RESULT_CANCELED, replyIntent);
+                setResult(RESULT_FINAL, replyIntent);
             } else {
                 replyIntent.putExtra(PlatoEdit.PLATO_NOMBRE, mNombreText.getText().toString());
                 replyIntent.putExtra(PlatoEdit.PLATO_DESCRIPCION,
@@ -132,52 +145,31 @@ public class PlatoEdit extends AppCompatActivity {
         String primero = "PRIMERO";
         String segundo = "SEGUNDO";
         String postre = "POSTRE";
-        String nombreNuevoPlato = mNombreText.getText().toString();
+        String nombreNuevoPlato = (String) mNombreText.getText().toString();
         String categoria = mCategoriaText.getText().toString();
 
-        //Depurando
+        //Huecos vacios
         if(TextUtils.isEmpty(mNombreText.getText())
             || TextUtils.isEmpty(mCategoriaText.getText())
             || TextUtils.isEmpty(mPrecioText.getText())) {
+            RESULT_FINAL = RESULT_CANCELED;
             valor = false;
         } else if (!(categoria.equals(primero)
-            || categoria.equals(segundo) || categoria.equals(postre))) {
+            || categoria.equals(segundo) || categoria.equals(postre))) { //Categoria valida
+            RESULT_FINAL = RESULT_CANCELED_CATEGORIA;
             valor = false;
-        } else if (precioPlato < 0) {
+        } else if (precioPlato < 0) { //Precio valido
+            RESULT_FINAL = RESULT_CANCELED_PRECIO;
             valor = false;
-        }
-
-        else{
-            int numeroDePlatos = 0;
-            String nombrePlato;
-            LiveData<List<Plato>> listaPlatosLD = mPlatoViewModel.getAllPlatos();
-            List<Plato> listaPlatos = listaPlatosLD.getValue();
-
-            /* Da error la lista de platos
-            if(listaPlatos != null){
-                for(Plato plato : listaPlatos){
-                    numeroDePlatos++;
-                    nombrePlato = plato.getNombre();
-                    if(nombreNuevoPlato.compareToIgnoreCase(nombrePlato) == 0){
-                        valor = false;
-                        break;
-                    }
-                    else{
-                        valor = true;
-                    }
-                }
-                if(numeroDePlatos >= 100){
+        } else { //Nombre del plato unico
+            for(String nombre : listaDeNombres){
+                if(nombre.equals(nombreNuevoPlato)){
+                    RESULT_FINAL = RESULT_CANCELED_UNICIDAD;
                     valor = false;
+                    break;
                 }
             }
-            */
         }
-
-        //fin depuracion
-
-        //A revisar:
-        //Lo del for de platos, hay algo que falla ahi -> Da error la lista
-
         return valor;
     }
 

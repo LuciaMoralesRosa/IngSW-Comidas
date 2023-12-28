@@ -1,5 +1,7 @@
 package es.unizar.eina.comidas.database;
 
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -13,7 +15,7 @@ import androidx.room.PrimaryKey;
  * @author Curro Valero
  */
 @Entity(tableName = "plato")
-public class Plato {
+public class Plato{
 
     /** Identificador único del plato, generado automáticamente por la base de datos. */
     @PrimaryKey(autoGenerate = true)

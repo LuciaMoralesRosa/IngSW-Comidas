@@ -102,7 +102,6 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-
         // It doesn't affect if we comment the following instruction
         registerForContextMenu(mRecyclerView);
 
@@ -137,23 +136,40 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         Bundle extras = data.getExtras();
 
         if (resultCode != RESULT_OK) {
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.empty_not_saved_platos,
-                    Toast.LENGTH_LONG).show();
+            switch (resultCode){
+                case 2:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.precio_not_saved_platos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 3:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.categoria_not_saved_platos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 4:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.unicidad_not_saved_platos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                default:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.empty_not_saved_platos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+            }
         } else {
             switch (requestCode) {
                 case ACTIVITY_CREATE: //Creacion de un plato
                     String nombreDelPlato = extras.getString(PlatoEdit.PLATO_NOMBRE);
-                    if(numeroDePlatos == 100){
+                    if(numeroDePlatos == 100){ //Comprobar numero maximo de platos
                         Toast.makeText(
                                 getApplicationContext(),
                                 R.string.not_saved_full_platos,
-                                Toast.LENGTH_LONG).show();
-                    } else if (existeElNombre(nombreDelPlato)) {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                R.string.not_saved_name_already_exist_platos,
                                 Toast.LENGTH_LONG).show();
                     } else {
                         Plato newPlato = new Plato(nombreDelPlato
@@ -202,20 +218,18 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         return super.onContextItemSelected(item);
     }
 
-    private Boolean existeElNombre(String nombrePlato){
-        for(String nombre : nombresDePlatos){
-            if(nombre == nombrePlato){
-                return true;
-            }
-        }
-        return false;
-    }
-
     /**
      * Inicia la actividad para crear un nuevo plato.
      */
     private void createPlato() {
         Intent intent = new Intent(this, PlatoEdit.class);
+
+        //Pasar la lista de nombres de platos a la nueva actividad
+        Bundle bundle = new Bundle();
+        ArrayList<String> listaNombres = new ArrayList<String>(nombresDePlatos);
+        bundle.putSerializable("listaNombresPlatos", listaNombres);
+        intent.putExtras(bundle);
+        intent.putExtra("listaNombres", bundle);
         startActivityForResult(intent, ACTIVITY_CREATE);
     }
 
@@ -226,11 +240,20 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
      */
     private void editPlato(Plato current) {
         Intent intent = new Intent(this, PlatoEdit.class);
+
+        //Pasar los valores del plato actual a la nueva actividad
         intent.putExtra(PlatoEdit.PLATO_NOMBRE, current.getNombre());
         intent.putExtra(PlatoEdit.PLATO_DESCRIPCION, current.getDescripcion());
         intent.putExtra(PlatoEdit.PLATO_CATEGORIA, current.getCategoria());
         intent.putExtra(PlatoEdit.PLATO_PRECIO, current.getPrecio());
         intent.putExtra(PlatoEdit.PLATO_ID, current.getId());
+
+        //Pasar la lista de nombres de platos a la nueva actividad
+        Bundle bundle = new Bundle();
+        ArrayList<String> listaNombres = new ArrayList<String>(nombresDePlatos);
+        bundle.putSerializable("listaNombresPlatos", listaNombres);
+        intent.putExtras(bundle);
+        intent.putExtra("listaNombres", bundle);
         startActivityForResult(intent, ACTIVITY_EDIT);
     }
 
