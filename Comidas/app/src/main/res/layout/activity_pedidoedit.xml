@@ -179,7 +179,7 @@
         android:background="@color/white"
         android:fontFamily="sans-serif-light"
         android:hint="@string/hint_precioPedido"
-        android:inputType="text|textAutoCorrect"
+        android:inputType="text"
         android:minHeight="@dimen/min_height"
         android:paddingLeft="@dimen/small_padding"
         android:textSize="18sp" />

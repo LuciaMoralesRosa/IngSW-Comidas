@@ -79,25 +79,26 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
             createPedido();
         });
 
-        Spinner spinner = findViewById(R.id.spinnerOrdenar_Pedidos);
+        Spinner spinnerOrdenar = findViewById(R.id.spinnerOrdenar_Pedidos);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.
                 createFromResource(this, R.array.ordenarPedidos,
                         android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        spinnerOrdenar.setAdapter(adapter);
+        spinnerOrdenar.setOnItemSelectedListener(this);
+
+        Spinner spinnerFiltrar = findViewById(R.id.spinnerFiltrar_Pedidos);
+        ArrayAdapter<CharSequence> adapterFiltrar = ArrayAdapter.
+                createFromResource(this, R.array.filtrarPedidos,
+                        android.R.layout.simple_spinner_item);
+        adapterFiltrar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFiltrar.setAdapter(adapterFiltrar);
+        spinnerFiltrar.setOnItemSelectedListener(this);
 
         // It doesn't affect if we comment the following instruction
         registerForContextMenu(mRecyclerView);
-
-
     }
 
-    /*public boolean onCreateOptionsMenu(Menu menu) {
-        boolean result = super.onCreateOptionsMenu(menu);
-        menu.add(Menu.NONE, INSERT_ID, Menu.NONE, R.string.add_pedido);
-        return result;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -235,6 +236,35 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
                             thenComparing(Pedido::getFechaRecogida).
                             thenComparing(Pedido::getHoraRecogida));
                     break;
+                case "Mostrar solo solicitados":
+                    List<Pedido> listaFiltradaSolicitado = new ArrayList<>();
+                    for(Pedido pedido : pedidos){
+                        if(pedido.getEstado().equals("SOLICITADO")){
+                            listaFiltradaSolicitado.add(pedido);
+                        }
+                    }
+                    listaPedidos = listaFiltradaSolicitado;
+                    break;
+                case "Mostrar solo preparados":
+                    List<Pedido> listaFiltradaPreparados = new ArrayList<>();
+                    for(Pedido pedido : pedidos){
+                        if(pedido.getEstado().equals("PREPARADO")){
+                            listaFiltradaPreparados.add(pedido);
+                        }
+                    }
+                    listaPedidos = listaFiltradaPreparados;
+                    break;
+                case "Mostrar solo recogidos":
+                    List<Pedido> listaFiltradaRecogidos = new ArrayList<>();
+                    for(Pedido pedido : pedidos){
+                        if(pedido.getEstado().equals("RECOGIDO")){
+                            listaFiltradaRecogidos.add(pedido);
+                        }
+                    }
+                    listaPedidos = listaFiltradaRecogidos;
+                    break;
+                default:
+                    break;
             }
             mAdapter.submitList(listaPedidos);
         });
@@ -242,6 +272,5 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }

@@ -40,6 +40,7 @@ public class Pedido{
     @NonNull
     @ColumnInfo(name = "horaRecogida")
     private String horaRecogida;
+
     @NonNull
     @ColumnInfo(name = "precioPedido")
     private Double precioPedido;

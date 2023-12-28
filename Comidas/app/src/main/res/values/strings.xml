@@ -82,4 +82,14 @@
         <item>Ordenar por todo</item>
     </string-array>
 
+
+    <string-array name="filtrarPedidos">
+        <item>Mostrar todos</item>
+        <item>Mostrar solo solicitados</item>
+        <item>Mostrar solo preparados</item>
+        <item>Mostrar solo recogidos</item>
+    </string-array>
+
+
+
 </resources>
