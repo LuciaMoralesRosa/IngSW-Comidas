@@ -57,6 +57,8 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
     /** Botón flotante para agregar un nuevo plato. */
     FloatingActionButton mFab;
 
+    Integer numeroDePlatos;
+    List<String> nombresDePlatos;
 
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
@@ -77,6 +79,12 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         mPlatoViewModel = new ViewModelProvider(this).get(PlatoViewModel.class);
 
         mPlatoViewModel.getAllPlatos().observe(this, platos -> {
+            numeroDePlatos = 0;
+            nombresDePlatos = new ArrayList<>();
+            for(Plato plato : platos) {
+                numeroDePlatos++;
+                nombresDePlatos.add(plato.getNombre());
+            }
             // Actualiza la copia en caché de los platos en el adaptador.
             mAdapter.submitList(platos);
         });
@@ -131,16 +139,29 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         if (resultCode != RESULT_OK) {
             Toast.makeText(
                     getApplicationContext(),
-                    R.string.empty_not_saved,
+                    R.string.empty_not_saved_platos,
                     Toast.LENGTH_LONG).show();
         } else {
             switch (requestCode) {
                 case ACTIVITY_CREATE: //Creacion de un plato
-                    Plato newPlato = new Plato(extras.getString(PlatoEdit.PLATO_NOMBRE)
-                            , extras.getString(PlatoEdit.PLATO_DESCRIPCION)
-                            , extras.getString(PlatoEdit.PLATO_CATEGORIA)
-                            , extras.getDouble(PlatoEdit.PLATO_PRECIO));
-                    mPlatoViewModel.insert(newPlato);
+                    String nombreDelPlato = extras.getString(PlatoEdit.PLATO_NOMBRE);
+                    if(numeroDePlatos == 100){
+                        Toast.makeText(
+                                getApplicationContext(),
+                                R.string.not_saved_full_platos,
+                                Toast.LENGTH_LONG).show();
+                    } else if (existeElNombre(nombreDelPlato)) {
+                        Toast.makeText(
+                                getApplicationContext(),
+                                R.string.not_saved_name_already_exist_platos,
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Plato newPlato = new Plato(nombreDelPlato
+                                , extras.getString(PlatoEdit.PLATO_DESCRIPCION)
+                                , extras.getString(PlatoEdit.PLATO_CATEGORIA)
+                                , extras.getDouble(PlatoEdit.PLATO_PRECIO));
+                        mPlatoViewModel.insert(newPlato);
+                    }
                     break;
                 case ACTIVITY_EDIT: //Edicion de un plato
                     int id = extras.getInt(PlatoEdit.PLATO_ID);
@@ -181,6 +202,15 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         return super.onContextItemSelected(item);
     }
 
+    private Boolean existeElNombre(String nombrePlato){
+        for(String nombre : nombresDePlatos){
+            if(nombre == nombrePlato){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Inicia la actividad para crear un nuevo plato.
      */
@@ -204,20 +234,6 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         startActivityForResult(intent, ACTIVITY_EDIT);
     }
 
-    /*private void ordenarPlatos(Boolean nombre, Boolean categoria) {
-        List<Plato> listaPlatos = ListaDePlatosActual.getValue();
-        if(categoria && nombre) {
-            listaPlatos.sort(Comparator.comparing(Plato::getNombre)
-                    .thenComparing(Plato::getCategoria));
-        }
-        else if(nombre) {
-            listaPlatos.sort(Comparator.comparing(Plato::getNombre));
-        }
-        else {
-            listaPlatos.sort(Comparator.comparing(Plato::getCategoria));
-        }
-        mAdapter.submitList(listaPlatos);
-    }*/
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

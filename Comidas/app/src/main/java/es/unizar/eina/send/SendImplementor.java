@@ -16,6 +16,6 @@ public interface SendImplementor {
    public Activity getSourceActivity();
 
    /** Permite lanzar la actividad encargada de gestionar el envio de notas */
-   public void send (String phone, String message);
+   public void send(String phone, String message);
 
 }

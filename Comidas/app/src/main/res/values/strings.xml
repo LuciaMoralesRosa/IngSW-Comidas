@@ -21,13 +21,16 @@
     <string name="app_name">T234_Comidas</string>
 
 
-    <!-- Plato -->
     <string name="hint_nombrePlato">Escriba el nombre del plato</string>
     <string name="hint_descripcionPlato">Escriba la descripcion del plato</string>
     <string name="hint_categoriaPlato">Escoja la categoria del plato</string>
     <string name="hint_precioPlato">Escriba el precio del plato</string>
-    <string name="empty_not_saved">Plato no guardado porque faltan campos por rellenar.</string>
-    <string name="empty_not_saved_full">Plato no guardado por falta de espacio.</string>
+    <string name="empty_not_saved_platos">Plato no guardado: Faltan campos por rellenar.</string>
+    <string name="empty_not_saved_pedidos">Pedido no guardado: Faltan campos por rellenar.</string>
+    <string name="not_saved_name_already_exist_platos">Plato no guardado: Ya existe un plato con ese nombre.</string>
+    <string name="not_saved_full_platos">Plato no guardado: Se ha alcanzado el maximo de platos a almacenar.</string>
+    <string name="not_saved_full_pedidos">Pedido no guardado: Se ha alcanzado el maximo de pedidos a almacenar.</string>
+
     <string name="add_plato">Añadir Plato</string>
     <string name="sort_platos_by_name">Ordenar por nombre</string>
     <string name="sort_platos_by_category">Ordenar por categoria</string>

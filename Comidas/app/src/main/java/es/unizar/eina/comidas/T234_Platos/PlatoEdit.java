@@ -93,7 +93,6 @@ public class PlatoEdit extends AppCompatActivity {
                                      mCategoriaText.getText().toString());
                 Double precioPlato = Double.parseDouble(mPrecioText.getText().toString());
                 replyIntent.putExtra(PlatoEdit.PLATO_PRECIO, precioPlato);
-                //replyIntent.putExtra(PlatoEdit.PLATO_PRECIO, mPrecioText.getText().toString());
                 if (mRowId != null) {
                     replyIntent.putExtra(PlatoEdit.PLATO_ID, mRowId.intValue());
                 }
@@ -121,7 +120,6 @@ public class PlatoEdit extends AppCompatActivity {
             mCategoriaText.setText(extras.getString(PlatoEdit.PLATO_CATEGORIA));
             Double precio = extras.getDouble(PlatoEdit.PLATO_PRECIO);
             mPrecioText.setText(precio.toString());
-            //mPrecioText.setText(extras.getString(PlatoEdit.PLATO_PRECIO));
             mRowId = extras.getInt(PlatoEdit.PLATO_ID);
         }
     }

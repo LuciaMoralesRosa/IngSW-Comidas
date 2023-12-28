@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import es.unizar.eina.T234_Comidas.R;
+import es.unizar.eina.comidas.T234_Platos.PlatoEdit;
 
 /** Pantalla utilizada para la creación o edición de un pedido */
 public class PedidoEdit extends AppCompatActivity {
@@ -67,7 +68,8 @@ public class PedidoEdit extends AppCompatActivity {
                         mFechaRecogidaText.getText());
                 replyIntent.putExtra(PedidoEdit.PEDIDO_HORA_RECOGIDA,
                         mHoraRecogidaText.getText());
-                replyIntent.putExtra(PedidoEdit.PEDIDO_PRECIO, calcularPrecioPedido());
+                Double precioPedido = Double.parseDouble(calcularPrecioPedido());
+                replyIntent.putExtra(PedidoEdit.PEDIDO_PRECIO, precioPedido);
                 if (mRowId != null) {
                     replyIntent.putExtra(PedidoEdit.PEDIDO_ID, mRowId.intValue());
                 }
@@ -90,7 +92,8 @@ public class PedidoEdit extends AppCompatActivity {
             mEstadoText.setText(extras.getString(PedidoEdit.PEDIDO_ESTADO));
             mFechaRecogidaText.setText(extras.getString(PedidoEdit.PEDIDO_FECHA_RECOGIDA));
             mHoraRecogidaText.setText(extras.getString(PedidoEdit.PEDIDO_HORA_RECOGIDA));
-            mPrecioPedidoText.setText(extras.getString(PedidoEdit.PEDIDO_PRECIO));
+            Double precio = extras.getDouble(PedidoEdit.PEDIDO_PRECIO);
+            mPrecioPedidoText.setText(precio.toString());
             mRowId = extras.getInt(PedidoEdit.PEDIDO_ID);
         }
     }
