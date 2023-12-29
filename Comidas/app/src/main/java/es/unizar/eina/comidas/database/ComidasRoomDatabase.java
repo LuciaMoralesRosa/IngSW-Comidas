@@ -11,13 +11,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Pedido.class, Plato.class, PedidoPlatoCrossRef.class}, version = 1,
-        exportSchema = false)
+@Database(entities = {Pedido.class, Plato.class}, version = 1, exportSchema = false)
 public abstract class ComidasRoomDatabase extends RoomDatabase {
 
     public abstract PedidoDao pedidoDao();
     public abstract PlatoDao platoDao();
-    public abstract RacionesDao racionesDao();
 
     private static volatile ComidasRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -70,8 +68,6 @@ public abstract class ComidasRoomDatabase extends RoomDatabase {
                 plato_dao.insert(plato);
 
                 //Raciones
-                RacionesDao raciones_dao = INSTANCE.racionesDao();
-                raciones_dao.deleteAll();
             });
         }
     };

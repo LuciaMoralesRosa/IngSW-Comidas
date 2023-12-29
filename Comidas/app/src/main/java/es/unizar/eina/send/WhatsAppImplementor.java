@@ -1,6 +1,8 @@
 package es.unizar.eina.send;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 
 /** Concrete implementor utilizando la aplicación de WhatsApp. No funciona en el emulador si no se ha configurado previamente */
 public class WhatsAppImplementor implements SendImplementor{
@@ -31,7 +33,19 @@ public class WhatsAppImplementor implements SendImplementor{
     * @param message cuerpo del mensaje
     */
    public void send (String phone, String message) {
-	// Por implementar
+      /*Uri smsUri = Uri.parse("sms:" + phone);
+      Intent sendIntent = new Intent(Intent.ACTION_SENDTO, smsUri);
+      sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+      sendIntent.setType("text/plain");
+      sendIntent.setPackage("com.whatsapp");
+      getSourceActivity().startActivity(sendIntent); */
+
+      Intent sendIntent = new Intent();
+      sendIntent.setAction(Intent.ACTION_SEND);
+      sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+      sendIntent.setType("text/plain");
+      sendIntent.setPackage("com.whatsapp");
+      getSourceActivity().startActivity(sendIntent);
    }
 
 }

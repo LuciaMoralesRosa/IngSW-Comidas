@@ -19,8 +19,8 @@ public class Plato{
 
     /** Identificador único del plato, generado automáticamente por la base de datos. */
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "platoId")
-    private int platoId;
+    @ColumnInfo(name = "id")
+    private int id;
 
     /** Nombre del plato. No puede ser nulo. */
     @NonNull
@@ -62,17 +62,17 @@ public class Plato{
      *
      * @return El identificador del plato.
      */
-    public int getPlatoId(){
-        return this.platoId;
+    public int getId(){
+        return this.id;
     }
 
     /**
      * Permite actualizar el identificador único de un plato.
      *
-     * @param platoId El nuevo identificador del plato.
+     * @param id El nuevo identificador del plato.
      */
-    public void setPlatoId(int platoId) {
-        this.platoId = platoId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

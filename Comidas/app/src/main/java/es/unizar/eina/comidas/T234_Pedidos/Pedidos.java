@@ -26,8 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import es.unizar.eina.comidas.database.Pedido;
 import es.unizar.eina.T234_Comidas.R;
 
-import android.net.Uri ;
-import android.content.Intent ;
+
 
 import android.content.pm.PackageInfo ;
 import android.content.pm.PackageManager;
@@ -50,7 +49,6 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
 
     public static final int ACTIVITY_EDIT = 2;
 
-   // public static final int ACTIVITY_SEND = 3;
 
     static final int INSERT_ID = Menu.FIRST;
     static final int DELETE_ID = Menu.FIRST + 1;
@@ -195,7 +193,7 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
                     }
                     break;
                 case ACTIVITY_EDIT: //Edicion de un pedido
-                    int pedidoId = extras.getInt(PedidoEdit.PEDIDO_ID);
+                    int id = extras.getInt(PedidoEdit.PEDIDO_ID);
                     Pedido updatedPedido = new Pedido(
                               extras.getString(PedidoEdit.PEDIDO_NOMBRE_CLIENTE)
                             , extras.getInt(PedidoEdit.PEDIDO_TELEFONO_CLIENTE)
@@ -203,7 +201,7 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
                             , extras.getString(PedidoEdit.PEDIDO_FECHA_RECOGIDA)
                             , extras.getString(PedidoEdit.PEDIDO_HORA_RECOGIDA)
                             , extras.getDouble(PedidoEdit.PEDIDO_PRECIO));
-                    updatedPedido.setPedidoId(pedidoId);
+                    updatedPedido.setId(id);
                     mPedidoViewModel.update(updatedPedido);
                     break;
 
@@ -247,36 +245,37 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
         intent.putExtra(PedidoEdit.PEDIDO_PRECIO, current.getPrecioPedido());
         intent.putExtra(PedidoEdit.PEDIDO_HORA_RECOGIDA, current.getHoraRecogida());
         intent.putExtra(PedidoEdit.PEDIDO_FECHA_RECOGIDA, current.getFechaRecogida());
-        intent.putExtra(PedidoEdit.PEDIDO_ID, current.getPedidoId());
+        intent.putExtra(PedidoEdit.PEDIDO_ID, current.getId());
         startActivityForResult(intent, ACTIVITY_EDIT);
     }
 
     private void sendPedido(Pedido current){
         int phone = current.getTelefonoCliente();
-        String message = "Hola" + current.getNombreCliente() + " \n" +
+        String message = "Hola " + current.getNombreCliente() + " \n" +
                         "Los detalles de su pedido son: \n" +
                         "Estado: " + current.getEstado() + " \n" +
                         "Fecha de recogida: " + current.getFechaRecogida() + " \n" +
                         "Hora de recogida: " + current.getHoraRecogida() + " \n" +
                         "Precio total: " + current.getPrecioPedido() + " \n";
-       /* PackageManager pm = getSourceActivity().getPackageManager ();
-        boolean app_installed = false;
-        try {pm.getPackageInfo ("com. whatsapp ", PackageManager.GET_ACTIVITIES ) ;
-            app_installed = true;
-        } catch ( PackageManager.NameNotFoundException e ) {
-            app_installed = false;
+
+        SendAbstractionImpl sendAbstraction;
+        if(isWhatsAppInstalled()){
+            sendAbstraction = new SendAbstractionImpl(this, "WhatsApp");
+        }else{
+            sendAbstraction = new SendAbstractionImpl(this, "SMS");
         }
-        if ( app_installed ) {
-            // Crear intent y lanzar actividad
-            Uri smsUri = Uri.parse ("sms:" + phone);
-            Intent sendIntent = new Intent (Intent.ACTION_SENDTO , smsUri );
-            sendIntent.putExtra (Intent.EXTRA_TEXT , message );
-            sendIntent.setPackage ("com. whatsapp ");
-            getSourceActivity().startActivity(sendIntent);
-        } else {
-            Toast.makeText(getSourceActivity() , " WhatsApp not Installed ",
-                            Toast.LENGTH_SHORT).show() ;
-        }*/
+        sendAbstraction.send(String.valueOf(phone), message);
+
+    }
+
+    private boolean isWhatsAppInstalled(){
+        PackageManager pm = this.getPackageManager();
+        try{
+            pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
+            return true;
+        }catch (PackageManager.NameNotFoundException e){
+            return false;
+        }
     }
 
     @Override

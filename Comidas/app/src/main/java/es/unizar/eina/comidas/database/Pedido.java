@@ -18,8 +18,8 @@ import java.util.List;
 @Entity(tableName = "pedido")
 public class Pedido{
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "pedidoId")
-    private int pedidoId;
+    @ColumnInfo(name = "id")
+    private int id;
 
     @NonNull
     @ColumnInfo(name = "nombreCliente")
@@ -62,13 +62,13 @@ public class Pedido{
     }
 
     /** Devuelve el identificador del pedido */
-    public int getPedidoId(){
-        return this.pedidoId;
+    public int getId(){
+        return this.id;
     }
 
     /** Permite actualizar el identificador de un pedido */
-    public void setPedidoId(int pedidoId) {
-        this.pedidoId = pedidoId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     /** Devuelve el nombre del cliente que ha realizado el pedido */
