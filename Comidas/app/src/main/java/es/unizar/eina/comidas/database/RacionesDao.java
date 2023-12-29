@@ -58,15 +58,15 @@ public interface RacionesDao {
      *
      * @return LiveData que contiene la lista de raciones.
      */
-    @Query("SELECT * FROM pedido_plato_cross_ref ORDER BY id ASC")
+    @Query("SELECT * FROM pedido_plato_cross_ref ORDER BY pedidoId ASC")
     LiveData<List<PedidoPlatoCrossRef>> getAllRaciones();
 
 
-    @Query("SELECT * FROM pedido_plato_cross_ref WHERE id = :pedidoId")
+    @Query("SELECT * FROM pedido_plato_cross_ref WHERE pedidoId = :pedidoId")
     List<PedidoPlatoCrossRef> getNumeroRaciones(long pedidoId);
 
     @Transaction
-    @Query("SELECT * FROM pedido WHERE id = :pedidoId")
+    @Query("SELECT * FROM pedido WHERE pedidoId = :pedidoId")
     PedidosConPlatos getPlatosForPedidos(long pedidoId);
 }
 

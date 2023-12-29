@@ -195,7 +195,7 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
                     }
                     break;
                 case ACTIVITY_EDIT: //Edicion de un pedido
-                    int id = extras.getInt(PedidoEdit.PEDIDO_ID);
+                    int pedidoId = extras.getInt(PedidoEdit.PEDIDO_ID);
                     Pedido updatedPedido = new Pedido(
                               extras.getString(PedidoEdit.PEDIDO_NOMBRE_CLIENTE)
                             , extras.getInt(PedidoEdit.PEDIDO_TELEFONO_CLIENTE)
@@ -203,7 +203,7 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
                             , extras.getString(PedidoEdit.PEDIDO_FECHA_RECOGIDA)
                             , extras.getString(PedidoEdit.PEDIDO_HORA_RECOGIDA)
                             , extras.getDouble(PedidoEdit.PEDIDO_PRECIO));
-                    updatedPedido.setId(id);
+                    updatedPedido.setPedidoId(pedidoId);
                     mPedidoViewModel.update(updatedPedido);
                     break;
 
@@ -247,7 +247,7 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
         intent.putExtra(PedidoEdit.PEDIDO_PRECIO, current.getPrecioPedido());
         intent.putExtra(PedidoEdit.PEDIDO_HORA_RECOGIDA, current.getHoraRecogida());
         intent.putExtra(PedidoEdit.PEDIDO_FECHA_RECOGIDA, current.getFechaRecogida());
-        intent.putExtra(PedidoEdit.PEDIDO_ID, current.getId());
+        intent.putExtra(PedidoEdit.PEDIDO_ID, current.getPedidoId());
         startActivityForResult(intent, ACTIVITY_EDIT);
     }
 

@@ -13,8 +13,8 @@ import es.unizar.eina.comidas.database.Plato;
  * Adaptador personalizado para la lista de platos. Extiende ListAdapter para gestionar de manera
  * eficiente las actualizaciones de la interfaz de usuario cuando cambian los datos de la lista.
  *
- * @param <Plato> El tipo de datos que representa un plato en la lista.
- * @param <PlatoViewHolder> El tipo de ViewHolder utilizado para mostrar un plato en la interfaz de
+ * <Plato> El tipo de datos que representa un plato en la lista.
+ * <PlatoViewHolder> El tipo de ViewHolder utilizado para mostrar un plato en la interfaz de
  * usuario.
  *
  * @author Lucia Morales
@@ -111,7 +111,7 @@ public class PlatoListAdapter extends ListAdapter<Plato, PlatoViewHolder> {
         public boolean areItemsTheSame(@NonNull Plato oldItem, @NonNull Plato newItem) {
             //android.util.Log.d ( "NoteDiff" , "areItemsTheSame " + oldItem.getId() +
             // " vs " + newItem.getId() + " " +  (oldItem.getId() == newItem.getId()));
-            return oldItem.getId() == newItem.getId();
+            return oldItem.getPlatoId() == newItem.getPlatoId();
         }
 
         /**

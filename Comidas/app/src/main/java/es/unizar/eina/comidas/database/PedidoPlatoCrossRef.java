@@ -14,13 +14,13 @@ import java.util.List;
  *
  * La tabla asociada en la base de datos se llama "pedido_plato_cross_ref".
  */
-@Entity(tableName = "pedido_plato_cross_ref", primaryKeys = {"pedido.id", "plato.id"})
+@Entity(tableName = "pedido_plato_cross_ref", primaryKeys = {"pedidoId", "platoId"})
 public class PedidoPlatoCrossRef {
 
     /**
      * Identificador único de la entidad de cruce PedidoPlatoCrossRef en la base de datos.
      */
-    public long id;
+    public long pedidoId;
 
     /**
      * Identificador único del plato asociado a este cruce en la base de datos.

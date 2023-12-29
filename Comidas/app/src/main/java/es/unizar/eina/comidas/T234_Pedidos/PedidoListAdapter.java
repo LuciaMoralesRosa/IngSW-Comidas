@@ -55,7 +55,7 @@ class PedidoListAdapter extends ListAdapter<Pedido, PedidoViewHolder> {
         public boolean areItemsTheSame(@NonNull Pedido oldItem, @NonNull Pedido newItem) {
             //android.util.Log.d ( "NoteDiff" , "areItemsTheSame " + oldItem.getId() +
             // " vs " + newItem.getId() + " " +  (oldItem.getId() == newItem.getId()));
-            return oldItem.getId() == newItem.getId();
+            return oldItem.getPedidoId() == newItem.getPedidoId();
         }
 
         @Override

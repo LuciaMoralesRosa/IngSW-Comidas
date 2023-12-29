@@ -33,8 +33,8 @@ public class PedidosConPlatos {
      * Lista de Platos asociados al Pedido, representando la relación muchos a muchos.
      */
     @Relation(
-            parentColumn = "id",
-            entityColumn = "id",
+            parentColumn = "pedidoId",
+            entityColumn = "platoId",
             associateBy = @Junction(PedidoPlatoCrossRef.class)
     )
     public List<Plato> platosDeLaRacion;

@@ -184,12 +184,12 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
                     }
                     break;
                 case ACTIVITY_EDIT: //Edicion de un plato
-                    int id = extras.getInt(PlatoEdit.PLATO_ID);
+                    int platoId = extras.getInt(PlatoEdit.PLATO_ID);
                     Plato updatedPlato = new Plato(extras.getString(PlatoEdit.PLATO_NOMBRE)
                             , extras.getString(PlatoEdit.PLATO_DESCRIPCION)
                             , extras.getString(PlatoEdit.PLATO_CATEGORIA)
                             , extras.getDouble(PlatoEdit.PLATO_PRECIO));
-                    updatedPlato.setId(id);
+                    updatedPlato.setPlatoId(platoId);
                     mPlatoViewModel.update(updatedPlato);
                     break;
 
@@ -250,7 +250,7 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         intent.putExtra(PlatoEdit.PLATO_DESCRIPCION, current.getDescripcion());
         intent.putExtra(PlatoEdit.PLATO_CATEGORIA, current.getCategoria());
         intent.putExtra(PlatoEdit.PLATO_PRECIO, current.getPrecio());
-        intent.putExtra(PlatoEdit.PLATO_ID, current.getId());
+        intent.putExtra(PlatoEdit.PLATO_ID, current.getPlatoId());
 
         //Pasar la lista de nombres de platos a la nueva actividad
         Bundle bundle = new Bundle();
