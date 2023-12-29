@@ -63,8 +63,7 @@ public class PlatoEdit extends AppCompatActivity {
     public static final int RESULT_CANCELED_PRECIO = 2;
     public static final int RESULT_CANCELED_CATEGORIA = 3;
     public static final int RESULT_CANCELED_UNICIDAD = 4;
-
-    public static int RESULT_FINAL;
+    public static int RESULT_ACTIVIDAD;
 
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
@@ -97,7 +96,7 @@ public class PlatoEdit extends AppCompatActivity {
         mSaveButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
             if (!validarPlato()) {
-                setResult(RESULT_FINAL, replyIntent);
+                setResult(RESULT_ACTIVIDAD, replyIntent);
             } else {
                 replyIntent.putExtra(PlatoEdit.PLATO_NOMBRE, mNombreText.getText().toString());
                 replyIntent.putExtra(PlatoEdit.PLATO_DESCRIPCION,
@@ -152,19 +151,19 @@ public class PlatoEdit extends AppCompatActivity {
         if(TextUtils.isEmpty(mNombreText.getText())
             || TextUtils.isEmpty(mCategoriaText.getText())
             || TextUtils.isEmpty(mPrecioText.getText())) {
-            RESULT_FINAL = RESULT_CANCELED;
+            RESULT_ACTIVIDAD = RESULT_CANCELED;
             valor = false;
         } else if (!(categoria.equals(primero)
             || categoria.equals(segundo) || categoria.equals(postre))) { //Categoria valida
-            RESULT_FINAL = RESULT_CANCELED_CATEGORIA;
+            RESULT_ACTIVIDAD = RESULT_CANCELED_CATEGORIA;
             valor = false;
         } else if (precioPlato < 0) { //Precio valido
-            RESULT_FINAL = RESULT_CANCELED_PRECIO;
+            RESULT_ACTIVIDAD = RESULT_CANCELED_PRECIO;
             valor = false;
         } else { //Nombre del plato unico
             for(String nombre : listaDeNombres){
                 if(nombre.equals(nombreNuevoPlato)){
-                    RESULT_FINAL = RESULT_CANCELED_UNICIDAD;
+                    RESULT_ACTIVIDAD = RESULT_CANCELED_UNICIDAD;
                     valor = false;
                     break;
                 }

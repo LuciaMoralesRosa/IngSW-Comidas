@@ -77,6 +77,14 @@
 
     <string name="empty_not_saved_pedidos">Pedido no guardado: Faltan campos por rellenar.</string>
     <string name="not_saved_full_pedidos">Pedido no guardado: Se ha alcanzado el maximo de pedidos a almacenar.</string>
+    <string name="estado_not_saved_pedidos">Pedido no guardado: El estado especificado no es valido.</string>
+    <string name="telefono_not_saved_pedidos">Pedido no guardado: El telefono especificado no es valido.</string>
+    <string name="momento_not_saved_pedidos">Pedido no guardado: El momento de recogida especificado es anterior a la creacion del pedido.</string>
+    <string name="lunes_not_saved_pedidos">Pedido no guardado: El dia de recogida especificado no puede ser lunes.</string>
+    <string name="fuera_horario_not_saved_pedidos">Pedido no guardado: La hora especificada esta fuera del horario valido.</string>
+    <string name="fecha_formato_not_saved_pedidos">Pedido no guardado: La fecha especificada no tiene un formato valido.</string>
+    <string name="hora_formato_not_saved_pedidos">Pedido no guardado: La hora especificada no tiene un formato valido.</string>
+
 
     <string-array name="ordenarPlatos">
         <item>Ordenar por nombre</item>

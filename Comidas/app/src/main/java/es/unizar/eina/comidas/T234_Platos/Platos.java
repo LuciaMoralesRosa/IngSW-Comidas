@@ -19,6 +19,11 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -263,16 +268,24 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         mPlatoViewModel.getAllPlatos().observe(this, platos -> {
             List<Plato> listaPlatos = new ArrayList<>(platos);
             String itemSelected = parent.getItemAtPosition(position).toString();
+
+            //Orden de las categorias
+            Map<String, Integer> categoriasOrden = new HashMap<>();
+            categoriasOrden.put("PRIMERO", 1);
+            categoriasOrden.put("SEGUNDO", 2);
+            categoriasOrden.put("POSTRE", 3);
+
             switch (itemSelected) {
                 case "Ordenar por nombre":
-                    listaPlatos.sort(Comparator.comparing(Plato::getNombre));
+                    listaPlatos.sort(Comparator.comparing(Plato::getNombre,
+                                     String.CASE_INSENSITIVE_ORDER));
                     break;
                 case "Ordenar por categoria":
-                    listaPlatos.sort(Comparator.comparing(Plato::getCategoria));
+                    listaPlatos.sort(Comparator.comparing(plato -> categoriasOrden.get(plato.getCategoria())));
                     break;
                 case "Ordenar por nombre y categoria":
                     listaPlatos.sort(Comparator.comparing(Plato::getCategoria).
-                            thenComparing(Plato::getNombre));
+                            thenComparing(Plato::getNombre, String.CASE_INSENSITIVE_ORDER));
                     break;
             }
             mAdapter.submitList(listaPlatos);

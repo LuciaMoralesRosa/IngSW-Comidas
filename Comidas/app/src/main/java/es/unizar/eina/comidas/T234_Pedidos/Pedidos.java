@@ -125,10 +125,56 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
         Bundle extras = data.getExtras();
 
         if (resultCode != RESULT_OK) {
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.empty_not_saved_pedidos,
-                    Toast.LENGTH_LONG).show();
+            switch (resultCode){
+                case 2:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.empty_not_saved_pedidos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 3:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.estado_not_saved_pedidos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 4:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.telefono_not_saved_pedidos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 5:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.momento_not_saved_pedidos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 6:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.lunes_not_saved_pedidos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 7:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.fuera_horario_not_saved_pedidos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 8:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.fecha_formato_not_saved_pedidos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case 9:
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.hora_formato_not_saved_pedidos,
+                            Toast.LENGTH_LONG).show();
+                    break;
+            }
         } else {
             switch (requestCode) {
                 case ACTIVITY_CREATE: //Creacion de un pedido
@@ -241,7 +287,8 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
             String itemSelected = parent.getItemAtPosition(position).toString();
             switch (itemSelected) {
                 case "Ordenar por nombre del cliente":
-                    listaPedidos.sort(Comparator.comparing(Pedido::getNombreCliente));
+                    listaPedidos.sort(Comparator.comparing(Pedido::getNombreCliente,
+                                      String.CASE_INSENSITIVE_ORDER));
                     break;
                 case "Ordenar por telefono":
                     listaPedidos.sort(Comparator.comparing(Pedido::getTelefonoCliente));
@@ -251,7 +298,8 @@ public class Pedidos extends AppCompatActivity implements AdapterView.OnItemSele
                             thenComparing(Pedido::getHoraRecogida));
                     break;
                 case "Ordenar por todo":
-                    listaPedidos.sort(Comparator.comparing(Pedido::getNombreCliente).
+                    listaPedidos.sort(Comparator.comparing(Pedido::getNombreCliente,
+                                      String.CASE_INSENSITIVE_ORDER).
                             thenComparing(Pedido::getTelefonoCliente).
                             thenComparing(Pedido::getFechaRecogida).
                             thenComparing(Pedido::getHoraRecogida));
