@@ -22,7 +22,8 @@
     <string name="button_save">Save</string>
     <string name="button_platos">Platos</string>
     <string name="button_pedidos">Pedidos</string>
-    <string name="button_pruebas">Pruebas</string>
+    <string name="button_pruebasUnitarias">Pruebas unitarias</string>
+    <string name="button_pruebasVolumen">Pruebas volumen</string>
 
 
     <string name="hint_nombrePlato">Escriba el nombre del plato</string>

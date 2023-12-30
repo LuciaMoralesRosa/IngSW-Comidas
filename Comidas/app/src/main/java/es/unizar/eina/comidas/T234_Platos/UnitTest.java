@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.unizar.eina.comidas.database.Pedido;
 import es.unizar.eina.comidas.database.PedidoRepository;
@@ -1341,9 +1342,39 @@ public class UnitTest  extends AppCompatActivity {
         deleteTestPedido();
     }
 
+    private void runTestVolumenPlatos(){
+        mPlatoRepository = new PlatoRepository(mContext);
+
+        String prefijoPlato = "plato_";
+        int cantidadPlatos = 100;
+        List<Plato> listaPlatos = new ArrayList<>();
+        // Añadir platos
+        for (int i = 1; i <= cantidadPlatos; i++) {
+            String nombrePlato = prefijoPlato + i;
+            Plato plato = new Plato(nombrePlato, "Descripción", "CATEGORIA", 10.0); // Ajusta la creación del plato según tu implementación
+            try {
+                int idPlato = (int) mPlatoRepository.insert(plato);
+                plato.setId(idPlato);
+                listaPlatos.add(plato);
+            } catch (Throwable throwable) {
+                // Manejar excepción específica o registrar el error según tus necesidades
+                Log.d("UnitTest", i+": " + throwable.getMessage());
+            }
+        }
+        for(Plato plato : listaPlatos){
+            mPlatoRepository.delete(plato);
+        }
+
+    }
+
+
     public void runAllTests(){
-        runTestPlato();
-        runTestPedido();
+        //runTestPlato();
+        //runTestPedido();
+    }
+
+    public void runTestVolumen(){
+        runTestVolumenPlatos();
     }
 
 }

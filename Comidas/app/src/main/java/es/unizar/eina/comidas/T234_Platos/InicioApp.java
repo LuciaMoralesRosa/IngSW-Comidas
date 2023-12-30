@@ -33,7 +33,8 @@ public class InicioApp extends AppCompatActivity {
     /** Botón para navegar a pedidos. */
     Button mIrPedidos;
 
-    Button mPruebasAutomaticas;
+    Button mPruebasUnitarias;
+    Button mPruebasVolumen;
 
     Context mContext;
 
@@ -53,7 +54,8 @@ public class InicioApp extends AppCompatActivity {
 
         mIrPlatos = findViewById(R.id.button_platos);
         mIrPedidos = findViewById(R.id.button_pedidos);
-        mPruebasAutomaticas = findViewById(R.id.button_pruebas);
+        mPruebasUnitarias = findViewById(R.id.button_pruebasUnitarias);
+        mPruebasVolumen = findViewById(R.id.button_pruebasVolumen);
 
         mIrPlatos.setOnClickListener(view -> {
             Intent intent = new Intent(this, Platos.class);
@@ -64,10 +66,10 @@ public class InicioApp extends AppCompatActivity {
             startActivity(intent);
         });
 
-        mPruebasAutomaticas.setOnClickListener(view -> {
+        mPruebasUnitarias.setOnClickListener(view -> {
             Toast.makeText(
                     getApplicationContext(),
-                    "Se estan ejecutando las pruebas..." ,
+                    "Se estan ejecutando las pruebas unitarias..." ,
                     Toast.LENGTH_LONG).show();
             Toast.makeText(
                     getApplicationContext(),
@@ -79,11 +81,32 @@ public class InicioApp extends AppCompatActivity {
                     "Se ha terminado de ejecutar las pruebas con exito" ,
                     Toast.LENGTH_LONG).show();
         });
+
+        mPruebasVolumen.setOnClickListener(view -> {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Se estan ejecutando las pruebas de volumen..." ,
+                    Toast.LENGTH_LONG).show();
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Espere hasta que se le notifique la finalizacion del proceso" ,
+                    Toast.LENGTH_LONG).show();
+            runTestVolumen();
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Se ha terminado de ejecutar las pruebas con exito" ,
+                    Toast.LENGTH_LONG).show();
+        });
     }
 
     private void runTestUnitarios(){
         UnitTest unitTests = new UnitTest(mContext);
         unitTests.runAllTests();
+    }
+
+    private void runTestVolumen(){
+        UnitTest unitTests = new UnitTest(mContext);
+        unitTests.runTestVolumen();
     }
 
 }
