@@ -132,11 +132,31 @@ public class PlatoRepository {
      * @return El número de filas afectadas en la base de datos.
      */
     public int update(Plato plato) {
-        final int[] result = {0};
+        AtomicInteger result = new AtomicInteger();
+        Semaphore resource = new Semaphore(0);
         ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
-            result[0] = mPlatoDao.update(plato);
+            int value;
+            try {
+                if (validarPlato(plato)) {
+                    value = mPlatoDao.update(plato);
+                    if (value == -1) {
+                        throw new RuntimeException("Error al insertar el plato. El valor devuelto fue -1.");
+                    }
+                } else {
+                    throw new RuntimeException("Error al insertar el plato. Validación del plato fallida.");
+                }
+                result.set(value);
+                resource.release();
+            } catch (Throwable throwable) {
+                mException = throwable; // Almacenar la excepción
+            }
         });
-        return result[0];
+        try{
+            resource.tryAcquire(TIMEOUT, TimeUnit.MILLISECONDS);
+        }catch (InterruptedException e){
+            Log.d("PlatoRepository", "InterruptedExecution: " + e.getMessage());
+        }
+        return result.get();
     }
 
     /**
@@ -146,27 +166,12 @@ public class PlatoRepository {
      * @return El número de filas afectadas en la base de datos.
      */
     public int delete(Plato plato) {
-        //final int[] result = {0};
-        //ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
-            //result[0] = mPlatoDao.delete(plato);
-        //});
-        //return result[0];
-
         AtomicInteger result = new AtomicInteger();
         Semaphore resource = new Semaphore(0);
 
         ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
-            int value;
-            try {
-                value = mPlatoDao.delete(plato);
-                if (value == -1) {
-                    throw new RuntimeException("Error al insertar el plato. El valor devuelto fue -1.");
-                }
-                result.set(value);
-                resource.release();
-            } catch (Throwable throwable) {
-                mException = throwable; // Almacenar la excepción
-            }
+            result.set(mPlatoDao.delete(plato));
+            resource.release();
         });
         try {
             resource.tryAcquire(TIMEOUT, TimeUnit.MILLISECONDS);
