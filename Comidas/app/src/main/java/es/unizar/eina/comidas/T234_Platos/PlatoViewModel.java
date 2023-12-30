@@ -32,11 +32,8 @@ public class PlatoViewModel extends AndroidViewModel {
      */
     public PlatoViewModel(Application application) {
         super(application);
-        //mRepository = new PlatoRepository(application);
-        Context mContext = application;
-        mRepository = new PlatoRepository(mContext.getApplicationContext());
+        mRepository = new PlatoRepository(application);
         mAllPlatos = mRepository.getAllPlatos();
-        //mNumeroDePlatos = mRepository.getNumeroDePlatos();
     }
 
     /**

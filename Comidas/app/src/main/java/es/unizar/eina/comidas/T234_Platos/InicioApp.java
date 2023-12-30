@@ -1,13 +1,17 @@
 package es.unizar.eina.comidas.T234_Platos;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import es.unizar.eina.comidas.T234_Pedidos.*;
 
 import es.unizar.eina.T234_Comidas.R;
@@ -31,8 +35,6 @@ public class InicioApp extends AppCompatActivity {
 
     Button mPruebasAutomaticas;
 
-    private PlatoRepository mPlatoRepository;
-
     Context mContext;
 
     /**
@@ -46,9 +48,8 @@ public class InicioApp extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
-        mContext = this;
 
-        //mPlatoRepository = new PlatoRepository();
+        mContext = this;
 
         mIrPlatos = findViewById(R.id.button_platos);
         mIrPedidos = findViewById(R.id.button_pedidos);
@@ -64,7 +65,15 @@ public class InicioApp extends AppCompatActivity {
         });
 
         mPruebasAutomaticas.setOnClickListener(view -> {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Se estan ejecutando las pruebas... Espere unos segundos" ,
+                    Toast.LENGTH_LONG).show();
             runTestUnitarios();
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Se ha terminado de ejecutar las pruebas con exito" ,
+                    Toast.LENGTH_LONG).show();
         });
     }
 
