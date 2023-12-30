@@ -58,11 +58,14 @@ public class PlatoRepository {
         String postre = "POSTRE";
 
         String nombre = plato.getNombre();
+        String descripcion = plato.getDescripcion();
         String categoria = plato.getCategoria();
         Double precioPlato = plato.getPrecio();
 
         //Huecos vacios
-        if(nombre.isEmpty() || categoria.isEmpty()) {
+        if(nombre == null || descripcion == null || categoria == null || precioPlato == null){
+            valor = false;
+        } else if(nombre.isEmpty() || categoria.isEmpty()) {
             valor = false;
         } else if (!(categoria.equals(primero)
                 || categoria.equals(segundo) || categoria.equals(postre))) { //Categoria valida
@@ -140,10 +143,13 @@ public class PlatoRepository {
                 if (validarPlato(plato)) {
                     value = mPlatoDao.update(plato);
                     if (value == -1) {
-                        throw new RuntimeException("Error al insertar el plato. El valor devuelto fue -1.");
+                        throw new RuntimeException("Error al modificar el plato. El valor devuelto fue -1.");
+                    }
+                    else if (value == 0){
+                        throw new RuntimeException("Error al modificar el plato. El valor devuelto fue 0.");
                     }
                 } else {
-                    throw new RuntimeException("Error al insertar el plato. Validación del plato fallida.");
+                    throw new RuntimeException("Error al modificar el plato. Validación del plato fallida.");
                 }
                 result.set(value);
                 resource.release();
@@ -170,8 +176,19 @@ public class PlatoRepository {
         Semaphore resource = new Semaphore(0);
 
         ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
-            result.set(mPlatoDao.delete(plato));
-            resource.release();
+            int value;
+            try {
+                value = mPlatoDao.delete(plato);
+                if (value == -1) {
+                    throw new RuntimeException("Error al eliminar el plato. El valor devuelto fue -1.");
+                } else if (value == 0){
+                    throw new RuntimeException("Error al eliminar el plato. El valor devuelto fue 0.");
+                }
+                result.set(value);
+                resource.release();
+            } catch (Throwable throwable) {
+                mException = throwable; // Almacenar la excepción
+            }
         });
         try {
             resource.tryAcquire(TIMEOUT, TimeUnit.MILLISECONDS);

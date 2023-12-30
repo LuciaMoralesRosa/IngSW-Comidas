@@ -305,7 +305,7 @@ public class PedidoEdit extends AppCompatActivity {
         } else if(!telefonoValido(mTelefonoClienteText.getText().toString())){
             RESULT_ACTIVIDAD = RESULT_CANCELED_TELEFONO;
             valor = false;
-        } else if(!recogidaPosteriorAPedido(fechaFormateadaMomentoActualLT,
+        } else if(recogidaPosteriorAPedido(fechaFormateadaMomentoActualLT,
                   fechaFormateadaRecogidaLT, horaFormateadaMomentoActualLT,
                   horaFormateadaRecogidaLT)){
             RESULT_ACTIVIDAD = RESULT_CANCELED_MOMENTO_RECOGIDA;

@@ -67,7 +67,11 @@ public class InicioApp extends AppCompatActivity {
         mPruebasAutomaticas.setOnClickListener(view -> {
             Toast.makeText(
                     getApplicationContext(),
-                    "Se estan ejecutando las pruebas... Espere unos segundos" ,
+                    "Se estan ejecutando las pruebas..." ,
+                    Toast.LENGTH_LONG).show();
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Espere hasta que se le notifique la finalizacion del proceso" ,
                     Toast.LENGTH_LONG).show();
             runTestUnitarios();
             Toast.makeText(

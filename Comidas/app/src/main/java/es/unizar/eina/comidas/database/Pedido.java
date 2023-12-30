@@ -66,6 +66,7 @@ public class Pedido{
         return this.id;
     }
 
+
     /** Permite actualizar el identificador de un pedido */
     public void setId(int id) {
         this.id = id;
@@ -101,5 +102,27 @@ public class Pedido{
         return this.precioPedido;
     }
 
-    //Faltaria la lista??
+    public void setNombreCliente(@NonNull String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public void setTelefonoCliente(@NonNull Integer telefonoCliente) {
+        this.telefonoCliente = telefonoCliente;
+    }
+
+    public void setEstado(@NonNull String estado) {
+        this.estado = estado;
+    }
+
+    public void setFechaRecogida(@NonNull String fechaRecogida) {
+        this.fechaRecogida = fechaRecogida;
+    }
+
+    public void setHoraRecogida(@NonNull String horaRecogida) {
+        this.horaRecogida = horaRecogida;
+    }
+
+    public void setPrecioPedido(@NonNull Double precioPedido) {
+        this.precioPedido = precioPedido;
+    }
 }

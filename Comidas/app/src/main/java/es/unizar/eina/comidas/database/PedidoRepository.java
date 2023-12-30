@@ -2,6 +2,7 @@ package es.unizar.eina.comidas.database;
 
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,8 +39,8 @@ public class PedidoRepository {
     // dependency. This adds complexity and much more code, and this sample is not about testing.
     // See the BasicSample in the android-architecture-components repository at
     // https://github.com/googlesamples
-    public PedidoRepository(Application application) {
-        ComidasRoomDatabase db = ComidasRoomDatabase.getDatabase(application);
+    public PedidoRepository(Context context) {
+        ComidasRoomDatabase db = ComidasRoomDatabase.getDatabase(context);
         mPedidoDao = db.pedidoDao();
         mAllPedidos = mPedidoDao.getOrderedPedidos();
     }
@@ -192,13 +194,16 @@ public class PedidoRepository {
         LocalTime horaFormateadaRecogidaLT = null;
         LocalDateTime fechaFormateadaRecogidaLDT = null;
 
-        if(!formatoFechaCorrecto(fecha)){
+        if(fecha == null || hora == null || nombreCliente == null || telefono == null || estado == null){
             valor = false;
-            return valor;
+        } else if(!formatoFechaCorrecto(fecha)){
+            valor = false;
         }
         if(!formatoHoraCorrecto(hora)){
             valor = false;
-            return valor;
+        }
+        if(valor == false){
+            return false;
         }
 
         //Formatos
@@ -228,7 +233,7 @@ public class PedidoRepository {
             valor = false;
         } else if(!telefonoValido(telefono.toString())){
             valor = false;
-        } else if(!recogidaPosteriorAPedido(fechaFormateadaMomentoActualLT,
+        } else if(recogidaPosteriorAPedido(fechaFormateadaMomentoActualLT,
                 fechaFormateadaRecogidaLT, horaFormateadaMomentoActualLT,
                 horaFormateadaRecogidaLT)){
             valor = false;
@@ -255,10 +260,10 @@ public class PedidoRepository {
                 if (validarPedido(pedido)) {
                     value = mPedidoDao.insert(pedido);
                     if (value == -1) {
-                        throw new RuntimeException("Error al insertar el plato. El valor devuelto fue -1.");
+                        throw new RuntimeException("Error al insertar el pedido. El valor devuelto fue -1.");
                     }
                 } else {
-                    throw new RuntimeException("Error al insertar el plato. Validación del plato fallida.");
+                    throw new RuntimeException("Error al insertar el pedido. Validación del pedido fallida.");
                 }
                 result.set(value);
                 resource.release();
@@ -269,7 +274,7 @@ public class PedidoRepository {
         try {
             resource.tryAcquire(TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e){
-            Log.d("PlatoRepository", "InterruptedException en Insert: " + e.getMessage());
+            Log.d("PedidoRepository", "InterruptedException en Insert: " + e.getMessage());
         }
         return result.get();
     }
@@ -279,11 +284,34 @@ public class PedidoRepository {
      * @return un valor entero con el número de filas modificadas.
      */
     public int update(Pedido pedido) {
-        final int[] result = {0};
+        AtomicInteger result = new AtomicInteger();
+        Semaphore resource = new Semaphore(0);
         ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
-            result[0] = mPedidoDao.update(pedido);
+            int value;
+            try {
+                if (validarPedido(pedido)) {
+                    value = mPedidoDao.update(pedido);
+                    if (value == -1) {
+                        throw new RuntimeException("Error al modificar el pedido. El valor devuelto fue -1.");
+                    }
+                    else if (value == 0){
+                        throw new RuntimeException("Error al modificar el pedido. El valor devuelto fue 0.");
+                    }
+                } else {
+                    throw new RuntimeException("Error al modificar el pedido. Validación del pedido fallida.");
+                }
+                result.set(value);
+                resource.release();
+            } catch (Throwable throwable) {
+                mException = throwable; // Almacenar la excepción
+            }
         });
-        return result[0];
+        try{
+            resource.tryAcquire(TIMEOUT, TimeUnit.MILLISECONDS);
+        }catch (InterruptedException e){
+            Log.d("PedidoRepository", "InterruptedExecution: " + e.getMessage());
+        }
+        return result.get();
     }
 
     /** Elimina un pedido
@@ -291,10 +319,30 @@ public class PedidoRepository {
      * @return un valor entero con el número de filas eliminadas.
      */
     public int delete(Pedido pedido) {
-        final int[] result = {0};
+        AtomicInteger result = new AtomicInteger();
+        Semaphore resource = new Semaphore(0);
+
         ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
-            result[0] = mPedidoDao.delete(pedido);
+            int value;
+            try {
+                value = mPedidoDao.delete(pedido);
+                if (value == -1) {
+                    throw new RuntimeException("Error al eliminar el pedido. El valor devuelto fue -1.");
+                }
+                else if (value == 0){
+                    throw new RuntimeException("Error al eliminar el pedido. El valor devuelto fue 0.");
+                }
+                result.set(value);
+                resource.release();
+            } catch (Throwable throwable) {
+                mException = throwable; // Almacenar la excepción
+            }
         });
-        return result[0];
+        try {
+            resource.tryAcquire(TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e){
+            Log.d("PedidoRepository", "InterruptedException en Insert: " + e.getMessage());
+        }
+        return result.get();
     }
 }
