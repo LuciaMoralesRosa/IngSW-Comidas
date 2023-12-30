@@ -65,6 +65,10 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
     Integer numeroDePlatos;
     List<String> nombresDePlatos;
 
+    public Platos(){
+
+    }
+
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
      * interfaz de usuario, se configuran los listeners y se vinculan los datos con el ViewModel.
@@ -255,6 +259,7 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         //Pasar la lista de nombres de platos a la nueva actividad
         Bundle bundle = new Bundle();
         ArrayList<String> listaNombres = new ArrayList<String>(nombresDePlatos);
+        listaNombres.remove(current.getNombre());
         bundle.putSerializable("listaNombresPlatos", listaNombres);
         intent.putExtras(bundle);
         intent.putExtra("listaNombres", bundle);

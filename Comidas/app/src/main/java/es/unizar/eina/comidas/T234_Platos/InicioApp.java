@@ -2,6 +2,7 @@ package es.unizar.eina.comidas.T234_Platos;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import es.unizar.eina.comidas.T234_Pedidos.*;
 
 import es.unizar.eina.T234_Comidas.R;
+import es.unizar.eina.comidas.database.PlatoRepository;
 //import es.unizar.eina.comidas.R;
 
 /**
@@ -29,6 +31,10 @@ public class InicioApp extends AppCompatActivity {
 
     Button mPruebasAutomaticas;
 
+    private PlatoRepository mPlatoRepository;
+
+    Context mContext;
+
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
      * interfaz de usuario, se configuran los listeners y se recuperan los datos pasados como
@@ -40,6 +46,9 @@ public class InicioApp extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
+        mContext = this;
+
+        //mPlatoRepository = new PlatoRepository();
 
         mIrPlatos = findViewById(R.id.button_platos);
         mIrPedidos = findViewById(R.id.button_pedidos);
@@ -55,10 +64,13 @@ public class InicioApp extends AppCompatActivity {
         });
 
         mPruebasAutomaticas.setOnClickListener(view -> {
-            Intent intent = new Intent(this, UnitTest.class);
-            startActivity(intent);
+            runTestUnitarios();
         });
+    }
 
+    private void runTestUnitarios(){
+        UnitTest unitTests = new UnitTest(mContext);
+        unitTests.runAllTests();
     }
 
 }

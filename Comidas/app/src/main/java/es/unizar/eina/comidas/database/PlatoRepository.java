@@ -2,10 +2,12 @@ package es.unizar.eina.comidas.database;
 
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -38,10 +40,10 @@ public class PlatoRepository {
     /**
      * Constructor de la clase que inicializa el DAO y obtiene la lista de todos los platos.
      *
-     * @param application La aplicación en la que se encuentra el repositorio.
+     * @param context La aplicación en la que se encuentra el repositorio.
      */
-    public PlatoRepository(Application application) {
-        ComidasRoomDatabase db = ComidasRoomDatabase.getDatabase(application);
+    public PlatoRepository(Context context) {
+        ComidasRoomDatabase db = ComidasRoomDatabase.getDatabase(context);
         mPlatoDao = db.platoDao();
         mAllPlatos = mPlatoDao.getAllPlatos();
     }
@@ -58,9 +60,6 @@ public class PlatoRepository {
         String categoria = plato.getCategoria();
         Double precioPlato = plato.getPrecio();
 
-        LiveData<List<Plato>> todosLosPlatosLD = mAllPlatos;
-        List<Plato> listaDePlatos = todosLosPlatosLD.getValue();
-
         //Huecos vacios
         if(nombre.isEmpty() || categoria.isEmpty()) {
             valor = false;
@@ -69,13 +68,6 @@ public class PlatoRepository {
             valor = false;
         } else if (precioPlato < 0) { //Precio valido
             valor = false;
-        } else { //Nombre del plato unico en la tabla
-            for(Plato p : listaDePlatos){
-                if(nombre.equals(p.getNombre())){
-                    valor = false;
-                    break;
-                }
-            }
         }
         return valor;
     }
@@ -91,6 +83,12 @@ public class PlatoRepository {
         return mAllPlatos;
     }
 
+    Throwable mException;
+
+    public Throwable getException() {
+        return mException;
+    }
+
     /**
      * Inserta un nuevo plato en la base de datos utilizando un hilo de ejecución separado.
      *
@@ -98,29 +96,31 @@ public class PlatoRepository {
      * @return El identificador único del plato recién insertado.
      */
     public long insert(Plato plato) {
-        //final long[] result = {0};
         AtomicLong result = new AtomicLong();
         Semaphore resource = new Semaphore(0);
 
-        // You must call this on a non-UI thread or your app will throw an exception. Room ensures
-        // that you're not doing any long running operations on the main thread, blocking the UI.
         ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
-            //result[0] = mPlatoDao.insert(plato);
             long value;
-            if(validarPlato(plato)){
-                value = mPlatoDao.insert(plato);
-            } else {
-                value = -1;
-            }
-            result.set(value);
-            resource.release();
+            try {
+                if (validarPlato(plato)) {
+                    value = mPlatoDao.insert(plato);
+                    if (value == -1) {
+                        throw new RuntimeException("Error al insertar el plato. El valor devuelto fue -1.");
+                    }
+                } else {
+                    throw new RuntimeException("Error al insertar el plato. Validación del plato fallida.");
+                }
+                result.set(value);
+                resource.release();
+            } catch (Throwable throwable) {
+            mException = throwable; // Almacenar la excepción
+        }
         });
         try {
             resource.tryAcquire(TIMEOUT, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e){
             Log.d("PlatoRepository", "InterruptedException en Insert: " + e.getMessage());
         }
-        //return result[0];
         return result.get();
     }
 

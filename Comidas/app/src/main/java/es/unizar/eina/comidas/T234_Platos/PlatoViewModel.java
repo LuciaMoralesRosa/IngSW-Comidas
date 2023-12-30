@@ -1,6 +1,7 @@
 package es.unizar.eina.comidas.T234_Platos;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -31,7 +32,9 @@ public class PlatoViewModel extends AndroidViewModel {
      */
     public PlatoViewModel(Application application) {
         super(application);
-        mRepository = new PlatoRepository(application);
+        //mRepository = new PlatoRepository(application);
+        Context mContext = application;
+        mRepository = new PlatoRepository(mContext.getApplicationContext());
         mAllPlatos = mRepository.getAllPlatos();
         //mNumeroDePlatos = mRepository.getNumeroDePlatos();
     }
