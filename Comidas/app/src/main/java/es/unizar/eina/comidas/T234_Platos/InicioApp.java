@@ -27,6 +27,8 @@ public class InicioApp extends AppCompatActivity {
     /** Botón para navegar a pedidos. */
     Button mIrPedidos;
 
+    Button mPruebasAutomaticas;
+
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
      * interfaz de usuario, se configuran los listeners y se recuperan los datos pasados como
@@ -41,12 +43,19 @@ public class InicioApp extends AppCompatActivity {
 
         mIrPlatos = findViewById(R.id.button_platos);
         mIrPedidos = findViewById(R.id.button_pedidos);
+        mPruebasAutomaticas = findViewById(R.id.button_pruebas);
+
         mIrPlatos.setOnClickListener(view -> {
             Intent intent = new Intent(this, Platos.class);
             startActivity(intent);
         });
         mIrPedidos.setOnClickListener(view -> {
             Intent intent = new Intent(this, Pedidos.class);
+            startActivity(intent);
+        });
+
+        mPruebasAutomaticas.setOnClickListener(view -> {
+            Intent intent = new Intent(this, UnitTest.class);
             startActivity(intent);
         });
 

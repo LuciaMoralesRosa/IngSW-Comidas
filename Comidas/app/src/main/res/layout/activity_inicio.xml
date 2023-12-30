@@ -62,4 +62,14 @@
         android:textColor="@color/black"
         android:textSize="22sp" />
 
+    <Button
+        android:id="@+id/button_pruebas"
+        android:layout_width="147dp"
+        android:layout_height="61dp"
+        android:layout_margin="@dimen/big_padding"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/button_pruebas"
+        android:textColor="@color/black"
+        android:textSize="22sp" />
+
 </LinearLayout>

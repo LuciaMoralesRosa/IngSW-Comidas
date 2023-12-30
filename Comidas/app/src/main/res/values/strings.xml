@@ -17,8 +17,12 @@
 
 
     <!-- General -->
-    <string name="button_save">Save</string>
     <string name="app_name">T234_Comidas</string>
+
+    <string name="button_save">Save</string>
+    <string name="button_platos">Platos</string>
+    <string name="button_pedidos">Pedidos</string>
+    <string name="button_pruebas">Pruebas</string>
 
 
     <string name="hint_nombrePlato">Escriba el nombre del plato</string>
@@ -32,8 +36,6 @@
     <string name="sort_platos">Ordenar por nombre y categoria</string>
     <string name="delete_plato">Borrar Plato</string>
     <string name="edit_plato">Editar Plato</string>
-
-    <string name="button_platos">Platos</string>
 
     <string name="nombrePlato">Nombre del Plato</string>
     <string name="descripcionPlato">Descripcion del Plato</string>
@@ -56,8 +58,6 @@
     <string name="add_pedido">Añadir Pedido</string>
     <string name="delete_pedido">Borrar Pedido</string>
     <string name="edit_pedido">Editar Pedido</string>
-
-    <string name="button_pedidos">Pedidos</string>
 
     <string name="nombreCliente">Nombre del Cliente</string>
     <string name="telefonoCliente">Teléfono del Cliente</string>
