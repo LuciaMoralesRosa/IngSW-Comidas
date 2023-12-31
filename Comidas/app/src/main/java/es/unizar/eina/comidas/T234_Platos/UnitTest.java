@@ -1,5 +1,7 @@
 package es.unizar.eina.comidas.T234_Platos;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -28,24 +30,51 @@ public class UnitTest  extends AppCompatActivity {
     List<Plato> listaPlatos;
     List<Pedido> listaPedidos;
 
-    private final int cantidadPlatos = 200;
-    private final int cantidadPedidos = 1;
+    private final int cantidadPlatos = 101;
+    private final int cantidadPedidos = 2000;
+    private int TestIncorrectos;
+    private int TestCorrectos;
 
     public UnitTest(Context context){
         super();
         mContext = context;
+        mPedidoRepository = new PedidoRepository(mContext);
+        mPlatoRepository = new PlatoRepository(mContext);
         listaPlatos = new ArrayList<>();
         listaPedidos = new ArrayList<>();
-
+        TestIncorrectos = 0;
+        TestCorrectos = 0;
     }
 
     private void showLogTrowableValorNoEsperado(Throwable throwable){
-        Log.d("UnitTests", "Error en la ejecución de la prueba: " + throwable.getMessage()
+        Log.d("UnitTest", "Error en la ejecución de la prueba: " + throwable.getMessage()
                 + "\nHa dado un valor no esperado");
     }
+
     private void showLogTrowableValorEsperado(Throwable throwable){
-        Log.d("UnitTests", "Error en la ejecución de la prueba: " + throwable.getMessage()
+        Log.d("UnitTest", "Error en la ejecución de la prueba: " + throwable.getMessage()
                 + "\nHa dado un valor incorrecto, como se esperaba");
+        TestIncorrectos++;
+    }
+
+    private void mensajeFinalTest(int testCorrectosExpected, int testIncorrectosExpected) {
+        Log.i("UnitTest", "\nResultados del test:\n" +
+                "\tSe han obtenido: " + TestCorrectos + " test correctos \n" +
+                "\tSe han obtenido: " + TestIncorrectos + " test incorrectos");
+        try {
+            assertEquals(testCorrectosExpected, TestCorrectos);
+            Log.i("UnitTest", "El numero de test correctos esperados y reales es igual");
+        } catch (Throwable throwable) {
+            Log.i("UnitTest", "ERROR: El numero de test correctos esperados y reales es distinto");
+        }
+        try {
+            assertEquals(testIncorrectosExpected, TestIncorrectos);
+            Log.i("UnitTest", "El numero de test incorrectos esperados y reales es igual");
+        } catch (Throwable throwable){
+            Log.i("UnitTest", "ERROR: El numero de test incorrectos esperados y reales es distinto\n");
+        }
+        TestCorrectos = 0;
+        TestIncorrectos = 0;
     }
 
     @Test
@@ -61,9 +90,10 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba1);
         try {
             prueba1.setId((int) mPlatoRepository.insert(prueba1));
-            Log.d("UnitTests", "Prueba 1: Insert correcto - nombre = \"Plato de prueba\"" +
-                    ", descripcion \"\", categoria = \"PRIMERO\", precio = 12.5 ." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 1: Insert correcto - nombre = \"Plato de prueba\"" +
+                    ", descripcion \"\", categoria = \"PRIMERO\", precio = 12.5");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -78,9 +108,10 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba2);
         try {
             prueba2.setId((int) mPlatoRepository.insert(prueba2));
-            Log.d("UnitTests", "Prueba 2: Insert correcto - nombre = \"Plato de prueba\"" +
-                    ", descripcion = \"Desc\", categoria = \"SEGUNDO\", precio = 0.0" +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 2: Insert correcto - nombre = \"Plato de prueba\"" +
+                    ", descripcion = \"Desc\", categoria = \"SEGUNDO\", precio = 0.0");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -95,9 +126,10 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba3);
         try {
             prueba3.setId((int) mPlatoRepository.insert(prueba3));
-            Log.d("UnitTests", "Prueba 3: Insert correcto - nombre = \"Plato de prueba\"" +
-                    ", descripcion = \"Desc\", categoria = \"POSTRE\", precio = 12.5" +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 3: Insert correcto - nombre = \"Plato de prueba\"" +
+                    ", descripcion = \"Desc\", categoria = \"POSTRE\", precio = 12.5");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -115,7 +147,7 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba4);
         try {
             prueba4.setId((int) mPlatoRepository.insert(prueba4));
-            Log.d("UnitTests", "Prueba 4: Insert incorrecto - nombre = \"\", descripcion" +
+            Log.d("UnitTest", "Prueba 4: Insert incorrecto - nombre = \"\", descripcion" +
                     " = \"Desc\", categoria = \"POSTRE\", precio = 12.5");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
@@ -131,7 +163,7 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba5);
         try {
             prueba5.setId((int) mPlatoRepository.insert(prueba5));
-            Log.d("UnitTests", "Prueba 5: Insert incorrecto - nombre = null, descripcion" +
+            Log.d("UnitTest", "Prueba 5: Insert incorrecto - nombre = null, descripcion" +
                     " = \"Desc\", categoria = \"POSTRE\", precio = 12.5");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
@@ -147,7 +179,7 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba6);
         try {
             prueba6.setId((int) mPlatoRepository.insert(prueba6));
-            Log.d("UnitTests", "Prueba 6 : Insert incorrecto - nombre = \"Plato de" +
+            Log.d("UnitTest", "Prueba 6 : Insert incorrecto - nombre = \"Plato de" +
                     " prueba\", descripcion = null, categoria = \"POSTRE\", precio = 12.5");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
@@ -163,7 +195,7 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba7);
         try {
             prueba7.setId((int) mPlatoRepository.insert(prueba7));
-            Log.d("UnitTests", "Prueba 7 : Insert incorrecto - nombre = \"Plato de " +
+            Log.d("UnitTest", "Prueba 7 : Insert incorrecto - nombre = \"Plato de " +
                     "prueba\", descripcion = \"Desc\", categoria = null, precio = 12.5");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
@@ -179,7 +211,7 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba8);
         try {
             prueba8.setId((int) mPlatoRepository.insert(prueba8));
-            Log.d("UnitTests", "Prueba 8 : Insert incorrecto - nombre = \"Plato de" +
+            Log.d("UnitTest", "Prueba 8 : Insert incorrecto - nombre = \"Plato de" +
                     " prueba\", descripcion = \"Desc\", categoria = \"OTRO\", precio = 12.5");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
@@ -195,7 +227,7 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba9);
         try {
             prueba9.setId((int) mPlatoRepository.insert(prueba9));
-            Log.d("UnitTests", "Prueba 9 : Insert incorrecto - nombre = \"Plato de" +
+            Log.d("UnitTest", "Prueba 9 : Insert incorrecto - nombre = \"Plato de" +
                     " prueba\", descripcion = \"Desc\", categoria = \"OTRO\", precio = -1.5");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
@@ -211,7 +243,7 @@ public class UnitTest  extends AppCompatActivity {
         platosDePrueba.add(prueba10);
         try {
             prueba10.setId((int) mPlatoRepository.insert(prueba10));
-            Log.d("UnitTests", "Prueba 10 : Insert incorrecto - nombre = \"Plato de" +
+            Log.d("UnitTest", "Prueba 10 : Insert incorrecto - nombre = \"Plato de" +
                     " prueba\", descripcion = \"Desc\", categoria = \"POSTRE\", precio = null");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
@@ -221,11 +253,13 @@ public class UnitTest  extends AppCompatActivity {
             showLogTrowableValorEsperado(throwable);
         }
 
+        mensajeFinalTest(3, 7);
+
         //Eliminacion de platos creados para la prueba
         for(Plato plato : platosDePrueba){
             mPlatoRepository.delete(plato);
         }
-        Log.d("UnitTests", "Se han eliminado los platos generados en la prueba de INSERT");
+        Log.i("UnitTest", "Se han eliminado los platos generados en la prueba de INSERT");
     }
 
     @Test
@@ -247,8 +281,9 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 1: Update correcto." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 1: Update correcto.");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -264,8 +299,9 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(0.0);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 2: Update correcto." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 2: Update correcto");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -281,8 +317,9 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 3: Update correcto." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 3: Update correcto.");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -301,7 +338,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 4: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 4: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -317,7 +354,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 5: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 5: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -333,7 +370,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 6: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 6: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -349,7 +386,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 7: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 7: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -365,7 +402,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 8: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 8: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -381,7 +418,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(-1.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 9: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 9: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -397,7 +434,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(null);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 10: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 10: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -414,7 +451,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 11: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 11: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -431,7 +468,7 @@ public class UnitTest  extends AppCompatActivity {
         plato.setPrecio(12.5);
         try {
             mPlatoRepository.update(plato);
-            Log.d("UnitTests", "Prueba 12: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 12: Update incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -440,10 +477,12 @@ public class UnitTest  extends AppCompatActivity {
             showLogTrowableValorEsperado(throwable);
         }
 
+        mensajeFinalTest(3, 9);
+
         //Eliminacion del plato creado para la prueba
         plato.setId(id);
         mPlatoRepository.delete(plato);
-        Log.d("UnitTests", "Se han eliminado los platos generados en la prueba");
+        Log.d("UnitTest", "Se han eliminado los platos generados en la prueba");
     }
 
     @Test
@@ -453,11 +492,14 @@ public class UnitTest  extends AppCompatActivity {
                 "PRIMERO", 12.5);
         plato.setId((int) mPlatoRepository.insert(plato));
 
+        // Casos de prueba para las clases de equivalencia validas
+
         //Caso 1
         try {
             mPlatoRepository.delete(plato);
-            Log.d("UnitTests", "Prueba 1: Delete correcto." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 1: Delete correcto.");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -466,11 +508,13 @@ public class UnitTest  extends AppCompatActivity {
             showLogTrowableValorNoEsperado(throwable);
         }
 
+        // Casos de prueba para las clases de equivalencia no validas
+
         //Caso 2
         try {
             plato.setId(12345);
             mPlatoRepository.delete(plato);
-            Log.d("UnitTests", "Prueba 2: Delete incorrecto.");
+            Log.d("UnitTest", "Prueba 2: Delete incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -483,7 +527,7 @@ public class UnitTest  extends AppCompatActivity {
         try {
             plato.setId(-1);
             mPlatoRepository.delete(plato);
-            Log.d("UnitTests", "Prueba 3: Delete incorrecto.");
+            Log.d("UnitTest", "Prueba 3: Delete incorrecto.");
             if (mPlatoRepository.getException() != null) {
                 throw mPlatoRepository.getException();
             }
@@ -491,7 +535,11 @@ public class UnitTest  extends AppCompatActivity {
             // Capturar cualquier excepción que se haya lanzado
             showLogTrowableValorEsperado(throwable);
         }
+
+        mensajeFinalTest(1, 2);
     }
+
+
 
     @Test
     private void insertTestPedido(){
@@ -506,8 +554,9 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba1);
         try {
             prueba1.setId((int) mPedidoRepository.insert(prueba1));
-            Log.d("UnitTests", "Prueba 1: Insert correcto" +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 1: Insert correcto");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -523,8 +572,9 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba2);
         try {
             prueba2.setId((int) mPedidoRepository.insert(prueba2));
-            Log.d("UnitTests", "Prueba 2: Insert correcto" +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 2: Insert correcto");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -540,8 +590,9 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba3);
         try {
             prueba3.setId((int) mPedidoRepository.insert(prueba3));
-            Log.d("UnitTests", "Prueba 3: Insert correcto" +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 3: Insert correcto");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -550,6 +601,8 @@ public class UnitTest  extends AppCompatActivity {
             showLogTrowableValorNoEsperado(throwable);
         }
 
+        // Casos de prueba para las clases de equivalencia no validas
+
         // Caso 4 : Insert incorrecto
         Pedido prueba4 = new Pedido("", 123456789,
                 "PREPARADO", "2025/01/02", "20:00",
@@ -557,7 +610,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba4);
         try {
             prueba4.setId((int) mPedidoRepository.insert(prueba4));
-            Log.d("UnitTests", "Prueba 4: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 4: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -573,7 +626,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba5);
         try {
             prueba5.setId((int) mPedidoRepository.insert(prueba5));
-            Log.d("UnitTests", "Prueba 5: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 5: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -589,7 +642,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba6);
         try {
             prueba6.setId((int) mPedidoRepository.insert(prueba6));
-            Log.d("UnitTests", "Prueba 6: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 6: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -605,7 +658,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba7);
         try {
             prueba7.setId((int) mPedidoRepository.insert(prueba7));
-            Log.d("UnitTests", "Prueba 7: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 7: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -621,7 +674,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba8);
         try {
             prueba8.setId((int) mPedidoRepository.insert(prueba8));
-            Log.d("UnitTests", "Prueba 8: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 8: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -637,7 +690,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba10);
         try {
             prueba10.setId((int) mPedidoRepository.insert(prueba10));
-            Log.d("UnitTests", "Prueba 10: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 10: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -653,7 +706,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba11);
         try {
             prueba11.setId((int) mPedidoRepository.insert(prueba11));
-            Log.d("UnitTests", "Prueba 11: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 11: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -669,7 +722,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba12);
         try {
             prueba12.setId((int) mPedidoRepository.insert(prueba12));
-            Log.d("UnitTests", "Prueba 12: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 12: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -685,7 +738,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba13);
         try {
             prueba13.setId((int) mPedidoRepository.insert(prueba13));
-            Log.d("UnitTests", "Prueba 13: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 13: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -701,7 +754,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba14);
         try {
             prueba14.setId((int) mPedidoRepository.insert(prueba14));
-            Log.d("UnitTests", "Prueba 14: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 14: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -717,7 +770,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba15);
         try {
             prueba15.setId((int) mPedidoRepository.insert(prueba15));
-            Log.d("UnitTests", "Prueba 15: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 15: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -733,7 +786,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba16);
         try {
             prueba16.setId((int) mPedidoRepository.insert(prueba16));
-            Log.d("UnitTests", "Prueba 16: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 16: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -749,7 +802,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba17);
         try {
             prueba17.setId((int) mPedidoRepository.insert(prueba17));
-            Log.d("UnitTests", "Prueba 17: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 17: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -765,7 +818,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba18);
         try {
             prueba18.setId((int) mPedidoRepository.insert(prueba18));
-            Log.d("UnitTests", "Prueba 18: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 18: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -781,7 +834,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba19);
         try {
             prueba19.setId((int) mPedidoRepository.insert(prueba19));
-            Log.d("UnitTests", "Prueba 19: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 19: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -797,7 +850,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba20);
         try {
             prueba20.setId((int) mPedidoRepository.insert(prueba20));
-            Log.d("UnitTests", "Prueba 20: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 20: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -813,7 +866,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba21);
         try {
             prueba21.setId((int) mPedidoRepository.insert(prueba21));
-            Log.d("UnitTests", "Prueba 21: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 21: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -829,7 +882,7 @@ public class UnitTest  extends AppCompatActivity {
         pedidosDePrueba.add(prueba22);
         try {
             prueba22.setId((int) mPedidoRepository.insert(prueba22));
-            Log.d("UnitTests", "Prueba 22: Insert incorrecto");
+            Log.d("UnitTest", "Prueba 22: Insert incorrecto");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -837,6 +890,8 @@ public class UnitTest  extends AppCompatActivity {
             // Capturar cualquier excepción que se haya lanzado
             showLogTrowableValorEsperado(throwable);
         }
+
+        mensajeFinalTest(3, 18);
 
         //Eliminacion de pedidos de prueba
         for(Pedido pedido : pedidosDePrueba){
@@ -864,8 +919,9 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 1: Update correcto." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 1: Update correcto.");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -883,8 +939,9 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(0.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 2: Update correcto." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 2: Update correcto.");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -902,8 +959,9 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 3: Update correcto." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 3: Update correcto.");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -911,7 +969,6 @@ public class UnitTest  extends AppCompatActivity {
             // Capturar cualquier excepción que se haya lanzado
             showLogTrowableValorNoEsperado(throwable);
         }
-
 
         // Casos de prueba para las clases de equivalencia no validas
 
@@ -924,7 +981,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 4: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 4: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -942,7 +999,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 5: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 5: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -960,7 +1017,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 6: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 6: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -978,7 +1035,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 7: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 7: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -996,7 +1053,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 8: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 8: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1014,7 +1071,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 10: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 10: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1032,7 +1089,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 11: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 11: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1050,7 +1107,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 12: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 12: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1058,6 +1115,7 @@ public class UnitTest  extends AppCompatActivity {
             // Capturar cualquier excepción que se haya lanzado
             showLogTrowableValorEsperado(throwable);
         }
+
         //Caso 13
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
@@ -1067,7 +1125,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 13: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 13: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1085,7 +1143,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 14: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 14: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1103,7 +1161,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 15: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 15: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1121,7 +1179,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 16: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 16: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1139,7 +1197,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 17: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 17: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1157,7 +1215,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 18: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 18: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1175,7 +1233,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 19: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 19: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1193,7 +1251,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(20.0);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 20: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 20: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1211,7 +1269,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(-1.5);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 21: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 21: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1229,7 +1287,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setPrecioPedido(null);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 22: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 22: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1248,7 +1306,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setId(999);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 24: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 24: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1267,7 +1325,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setId(-1);
         try {
             mPedidoRepository.update(pedido);
-            Log.d("UnitTests", "Prueba 26: Update incorrecto.");
+            Log.d("UnitTest", "Prueba 26: Update incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1275,6 +1333,8 @@ public class UnitTest  extends AppCompatActivity {
             // Capturar cualquier excepción que se haya lanzado
             showLogTrowableValorEsperado(throwable);
         }
+
+        mensajeFinalTest(3, 20);
 
         //Eliminar el pedido creado para el test
         pedido.setId(id);
@@ -1289,11 +1349,14 @@ public class UnitTest  extends AppCompatActivity {
                 20.0);
         pedido.setId((int) mPedidoRepository.insert(pedido));
 
+        // Casos de prueba para las clases de equivalencia validas
+
         //Caso 1
         try {
             mPedidoRepository.delete(pedido);
-            Log.d("UnitTests", "Prueba 1: Delete correcto." +
-                    "\nHa dado un valor correcto, como se esperaba");
+            Log.d("UnitTest", "Prueba 1: Delete correcto.");
+            Log.d("UnitTest", "\nHa dado un valor correcto, como se esperaba");
+            TestCorrectos++;
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1302,11 +1365,13 @@ public class UnitTest  extends AppCompatActivity {
             showLogTrowableValorNoEsperado(throwable);
         }
 
+        // Casos de prueba para las clases de equivalencia no validas
+
         //Caso 2
         try {
             pedido.setId(12345);
             mPedidoRepository.delete(pedido);
-            Log.d("UnitTests", "Prueba 2: Delete incorrecto.");
+            Log.d("UnitTest", "Prueba 2: Delete incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1319,7 +1384,7 @@ public class UnitTest  extends AppCompatActivity {
         try {
             pedido.setId(-1);
             mPedidoRepository.delete(pedido);
-            Log.d("UnitTests", "Prueba 3: Delete incorrecto.");
+            Log.d("UnitTest", "Prueba 3: Delete incorrecto.");
             if (mPedidoRepository.getException() != null) {
                 throw mPedidoRepository.getException();
             }
@@ -1327,11 +1392,13 @@ public class UnitTest  extends AppCompatActivity {
             // Capturar cualquier excepción que se haya lanzado
             showLogTrowableValorEsperado(throwable);
         }
+
+        mensajeFinalTest(1, 2);
+
     }
 
 
     private void runTestPlato(){
-        mPlatoRepository = new PlatoRepository(mContext);
         Log.i("UnitTest", "Comenzando test de insert platos...");
         insertTestPlato();
         Log.i("UnitTest", "Comenzando test de update platos...");
@@ -1341,7 +1408,6 @@ public class UnitTest  extends AppCompatActivity {
     }
 
     private void runTestPedido(){
-        mPedidoRepository = new PedidoRepository(mContext);
         Log.i("UnitTest", "Comenzando test de insert pedidos...");
         insertTestPedido();
         Log.i("UnitTest", "Comenzando test de update pedidos...");
@@ -1351,8 +1417,6 @@ public class UnitTest  extends AppCompatActivity {
     }
 
     private void runTestVolumenPlatos(){
-        mPlatoRepository = new PlatoRepository(mContext);
-
         String prefijoPlato = "Plato_";
         // Añadir platos
         for (int i = 1; i <= cantidadPlatos; i++) {
@@ -1378,17 +1442,17 @@ public class UnitTest  extends AppCompatActivity {
     }
 
     private void runTestVolumenPedidos(){
-        mPedidoRepository = new PedidoRepository(mContext);
-
         String prefijoPlato = "Pedido_";
         // Añadir platos
         for (int i = 1; i <= cantidadPedidos; i++) {
             String nombreClientePlato = prefijoPlato;
             if(i < 10) {
-                nombreClientePlato = nombreClientePlato + "00" + i;
+                nombreClientePlato = nombreClientePlato + "000" + i;
             } else if(i < 100) {
+                nombreClientePlato = nombreClientePlato + "00" + i;
+            } else if (1 < 1000){
                 nombreClientePlato = nombreClientePlato + "0" + i;
-            } else{
+            }else{
                 nombreClientePlato = nombreClientePlato + i;
             }
             Pedido pedido = new Pedido(nombreClientePlato, 123456789,
@@ -1407,41 +1471,23 @@ public class UnitTest  extends AppCompatActivity {
     }
 
     public void borrarObjetosVolumen(){
-        mPlatoRepository = new PlatoRepository(mContext);
-        mPedidoRepository = new PedidoRepository(mContext);
-
         if(listaPlatos != null){
             for(Plato plato : listaPlatos){
                 mPlatoRepository.delete(plato);
             }
         }
+        Log.i("UnitTest - Borrado", "Se han borrado: " +
+                listaPlatos.size() + " platos");
+        listaPlatos.clear();
 
         if(listaPedidos != null){
             for(Pedido pedido : listaPedidos){
                 mPedidoRepository.delete(pedido);
             }
         }
-
-        /*
-        //Busqueda de Platos por nombre
-        String prefijoPlato = "Plato_";
-        for (int i = 1; i <= cantidadPlatos; i++) {
-            String nombrePlato = prefijoPlato;
-            if (i < 10) {
-                nombrePlato = nombrePlato + "00" + i;
-            } else if (i < 100) {
-                nombrePlato = nombrePlato + "0" + i;
-            } else {
-                nombrePlato = nombrePlato + i;
-            }
-            try {
-                Plato plato = mPlatoRepository.getPlato(nombrePlato);
-                int resultado = mPlatoRepository.delete(plato);
-            } catch (Throwable throwable){
-                Log.d("UnitTest", throwable.getMessage());
-            }
-        }
-        */
+        Log.i("UnitTest - Borrado", "Se han borrado: " +
+                listaPedidos.size() + " pedidos");
+        listaPedidos.clear();
     }
 
     public void runAllTests(){
@@ -1450,8 +1496,13 @@ public class UnitTest  extends AppCompatActivity {
     }
 
     public void runTestVolumen(){
-        //runTestVolumenPlatos();
+        runTestVolumenPlatos();
         runTestVolumenPedidos();
+        Log.i("UnitTest - Volumen", "Se han añadido " + cantidadPlatos +
+                " platos y " + cantidadPedidos + " pedidos");
+        Log.i("UnitTest - Volumen", "Ahora hay " + listaPlatos.size() +
+                " platos y " + listaPedidos.size() + " pedidos generados por " +
+                "las pruebas de volumen");
     }
 
 }

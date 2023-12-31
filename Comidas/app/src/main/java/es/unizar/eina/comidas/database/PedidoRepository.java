@@ -81,7 +81,7 @@ public class PedidoRepository {
      * @param horaFormateadaRecogidaLT La hora formateada de la recogida.
      * @return true si la recogida es posterior al pedido, false de lo contrario.
      */
-    private Boolean recogidaPosteriorAPedido(LocalDate fechaFormateadaMomentoActualLT,
+    private Boolean fechaActualEsAnterior(LocalDate fechaFormateadaMomentoActualLT,
                                              LocalDate fechaFormateadaRecogidaLT,
                                              LocalTime horaFormateadaMomentoActualLT,
                                              LocalTime horaFormateadaRecogidaLT){
@@ -187,6 +187,7 @@ public class PedidoRepository {
         String nombreCliente = pedido.getNombreCliente();
         Integer telefono = pedido.getTelefonoCliente();
         String estado = pedido.getEstado();
+        Double precio = pedido.getPrecioPedido();
 
         LocalDate fechaFormateadaMomentoActualLT = null;
         LocalDate fechaFormateadaRecogidaLT = null;
@@ -194,7 +195,8 @@ public class PedidoRepository {
         LocalTime horaFormateadaRecogidaLT = null;
         LocalDateTime fechaFormateadaRecogidaLDT = null;
 
-        if(fecha == null || hora == null || nombreCliente == null || telefono == null || estado == null){
+        if(fecha == null || hora == null || nombreCliente == null || telefono == null ||
+                estado == null || precio == null){
             valor = false;
         } else if(!formatoFechaCorrecto(fecha)){
             valor = false;
@@ -233,7 +235,7 @@ public class PedidoRepository {
             valor = false;
         } else if(!telefonoValido(telefono.toString())){
             valor = false;
-        } else if(recogidaPosteriorAPedido(fechaFormateadaMomentoActualLT,
+        } else if(!fechaActualEsAnterior(fechaFormateadaMomentoActualLT,
                 fechaFormateadaRecogidaLT, horaFormateadaMomentoActualLT,
                 horaFormateadaRecogidaLT)){
             valor = false;
