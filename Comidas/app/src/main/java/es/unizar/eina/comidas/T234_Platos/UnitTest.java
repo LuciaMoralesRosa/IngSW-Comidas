@@ -10,6 +10,7 @@ import org.junit.Test;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import es.unizar.eina.comidas.database.Pedido;
@@ -1417,7 +1418,7 @@ public class UnitTest  extends AppCompatActivity {
     }
 
     private void runTestVolumenPlatos(){
-        String prefijoPlato = "Plato_";
+        String prefijoPlato = "Plato_Volumen_";
         // Añadir platos
         for (int i = 1; i <= cantidadPlatos; i++) {
             String nombrePlato = prefijoPlato;
@@ -1428,7 +1429,7 @@ public class UnitTest  extends AppCompatActivity {
             } else{
                 nombrePlato = nombrePlato + i;
             }
-            Plato plato = new Plato(nombrePlato, "Descripción", "PRIMERO", 10.0); // Ajusta la creación del plato según tu implementación
+            Plato plato = new Plato(nombrePlato, "Descripción", "PRIMERO", 10.0);
             try {
                 int idPlato = (int) mPlatoRepository.insert(plato);
                 plato.setId(idPlato);
@@ -1442,20 +1443,21 @@ public class UnitTest  extends AppCompatActivity {
     }
 
     private void runTestVolumenPedidos(){
-        String prefijoPlato = "Pedido_";
+        String prefijoPedido = "Pedido_Volumen_";
         // Añadir platos
         for (int i = 1; i <= cantidadPedidos; i++) {
-            String nombreClientePlato = prefijoPlato;
+            String nombreCliente = prefijoPedido;
             if(i < 10) {
-                nombreClientePlato = nombreClientePlato + "000" + i;
+                nombreCliente = nombreCliente + "000" + i;
             } else if(i < 100) {
-                nombreClientePlato = nombreClientePlato + "00" + i;
+                nombreCliente = nombreCliente + "00" + i;
             } else if (1 < 1000){
-                nombreClientePlato = nombreClientePlato + "0" + i;
+                nombreCliente = nombreCliente + "0" + i;
             }else{
-                nombreClientePlato = nombreClientePlato + i;
+                nombreCliente = nombreCliente + i;
             }
-            Pedido pedido = new Pedido(nombreClientePlato, 123456789,
+
+            Pedido pedido = new Pedido(nombreCliente, 123456789,
                     "SOLICITADO", "2025/01/02", "20:00",
                     20.0);
             try {
@@ -1490,7 +1492,7 @@ public class UnitTest  extends AppCompatActivity {
         listaPedidos.clear();
     }
 
-    public void runAllTests(){
+    public void runAllTestsUnitarios(){
         runTestPlato();
         runTestPedido();
     }
@@ -1505,4 +1507,52 @@ public class UnitTest  extends AppCompatActivity {
                 "las pruebas de volumen");
     }
 
+    public void runTestSobrecarga() {
+        String prefijoPlato = "Plato_Sobrecarga_";
+        String descripcion = "Descripcion_";
+        Boolean continuar = true;
+
+        //inicializarStringConCeros
+        int tamDelString = 10000;
+        char[] ceros = new char[tamDelString];
+        Arrays.fill(ceros, '0');
+        String cadenaDeCeros = new String(ceros);
+
+        int i = 0;
+        try {
+            while (continuar) {
+                String nombrePlato = prefijoPlato;
+                if (i < 10) {
+                    nombrePlato = nombrePlato + "00" + i;
+                } else if (i < 100) {
+                    nombrePlato = nombrePlato + "0" + i;
+                } else {
+                    nombrePlato = nombrePlato + i;
+                }
+                try {
+                    descripcion = descripcion + cadenaDeCeros;
+                    Plato plato = new Plato(nombrePlato, descripcion, "PRIMERO", 10.0);
+                    int idPlato = (int) mPlatoRepository.insert(plato);
+                    plato.setId(idPlato);
+                    listaPlatos.add(plato);
+                } catch (Throwable throwable) {
+                    Log.d("UnitTest - SobreCarga", "No se ha podido introducir el plato.\n" +
+                            throwable.getMessage());
+                    Log.i("UnitTest - Sobrecarga", "Se han introducido " + (i - 1) +
+                            " platos correctamente antes del error");
+                    Log.i("UnitTest - Sobrecarga", "El plato " + i + " contenia una" +
+                            " descripcion con " + descripcion.length() + " caracteres");
+                    continuar = false;
+                }
+                if (i % 100 == 0) {
+                    Log.d("UnitTest - Sobrecarga", "\tSe han introducido " + i + " platos \n" +
+                            "\tEl plato " + i + " tiene una descripcion de " + descripcion.length() +
+                            " caracteres");
+                }
+                i++;
+            }
+        } catch (OutOfMemoryError e){
+            Log.d("UnitTest - Sobrecarga", "Se ha capturado un error outOfMemory");
+        }
+    }
 }

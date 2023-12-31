@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,15 +85,19 @@ public class Platos extends AppCompatActivity implements AdapterView.OnItemSelec
         mAdapter = new PlatoListAdapter(new PlatoListAdapter.PlatoDiff());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        nombresDePlatos = new ArrayList<>();
 
         mPlatoViewModel = new ViewModelProvider(this).get(PlatoViewModel.class);
 
         mPlatoViewModel.getAllPlatos().observe(this, platos -> {
             numeroDePlatos = 0;
-            nombresDePlatos = new ArrayList<>();
-            for(Plato plato : platos) {
-                numeroDePlatos++;
-                nombresDePlatos.add(plato.getNombre());
+            try {
+                for (Plato plato : platos) {
+                    numeroDePlatos++;
+                    nombresDePlatos.add(plato.getNombre());
+                }
+            } catch (OutOfMemoryError e){
+                Log.d("Platos - OOME", "Se ha obtenido una excepcion outOfMemoryError");
             }
             // Actualiza la copia en caché de los platos en el adaptador.
             mAdapter.submitList(platos);

@@ -35,8 +35,8 @@ public class InicioApp extends AppCompatActivity {
 
     Button mPruebasUnitarias;
     Button mPruebasVolumen;
-
     Button mBorrarObjetos;
+    Button mPruebasSobrecarga;
 
     Context mContext;
 
@@ -62,6 +62,7 @@ public class InicioApp extends AppCompatActivity {
         mPruebasUnitarias = findViewById(R.id.button_pruebasUnitarias);
         mPruebasVolumen = findViewById(R.id.button_pruebasVolumen);
         mBorrarObjetos = findViewById(R.id.button_borrarObjetos);
+        mPruebasSobrecarga = findViewById(R.id.button_pruebasSobrecarga);
 
         mIrPlatos.setOnClickListener(view -> {
             Intent intent = new Intent(this, Platos.class);
@@ -93,10 +94,6 @@ public class InicioApp extends AppCompatActivity {
                     getApplicationContext(),
                     "Se estan ejecutando las pruebas de volumen..." ,
                     Toast.LENGTH_LONG).show();
-            Toast.makeText(
-                    getApplicationContext(),
-                    "Espere hasta que se le notifique la finalizacion del proceso" ,
-                    Toast.LENGTH_LONG).show();
             runTestVolumen();
             Toast.makeText(
                     getApplicationContext(),
@@ -109,11 +106,19 @@ public class InicioApp extends AppCompatActivity {
                     getApplicationContext(),
                     "Se estan borrando los objetos generados por las pruebas de volumen..." ,
                     Toast.LENGTH_LONG).show();
+            borrarObjetosVolumen();
             Toast.makeText(
                     getApplicationContext(),
-                    "Espere hasta que se le notifique la finalizacion del proceso" ,
+                    "Se ha terminado de ejecutar el borrado con exito" ,
                     Toast.LENGTH_LONG).show();
-            borrarObjetosVolumen();
+        });
+
+        mPruebasSobrecarga.setOnClickListener(view -> {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Se estan borrando los objetos generados por las pruebas de volumen..." ,
+                    Toast.LENGTH_LONG).show();
+            runTestSobrecarga();
             Toast.makeText(
                     getApplicationContext(),
                     "Se ha terminado de ejecutar el borrado con exito" ,
@@ -122,11 +127,15 @@ public class InicioApp extends AppCompatActivity {
     }
 
     private void runTestUnitarios(){
-        mUnitTests.runAllTests();
+        mUnitTests.runAllTestsUnitarios();
     }
 
     private void runTestVolumen(){
         mUnitTests.runTestVolumen();
+    }
+
+    private void runTestSobrecarga(){
+        mUnitTests.runTestSobrecarga();
     }
 
     private void borrarObjetosVolumen(){

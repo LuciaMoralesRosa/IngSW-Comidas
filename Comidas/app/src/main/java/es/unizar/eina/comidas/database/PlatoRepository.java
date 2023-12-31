@@ -117,8 +117,8 @@ public class PlatoRepository {
                 result.set(value);
                 resource.release();
             } catch (Throwable throwable) {
-            mException = throwable; // Almacenar la excepción
-        }
+                mException = throwable; // Almacenar la excepción
+            }
         });
         try {
             resource.tryAcquire(TIMEOUT, TimeUnit.MILLISECONDS);
