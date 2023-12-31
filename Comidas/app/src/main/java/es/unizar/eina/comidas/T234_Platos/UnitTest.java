@@ -1,14 +1,9 @@
 package es.unizar.eina.comidas.T234_Platos;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
 import org.junit.Test;
-
-import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,10 +25,18 @@ public class UnitTest  extends AppCompatActivity {
     private PlatoRepository mPlatoRepository;
     private PedidoRepository mPedidoRepository;
     private Context mContext;
+    List<Plato> listaPlatos;
+    List<Pedido> listaPedidos;
+
+    private final int cantidadPlatos = 200;
+    private final int cantidadPedidos = 1;
 
     public UnitTest(Context context){
         super();
         mContext = context;
+        listaPlatos = new ArrayList<>();
+        listaPedidos = new ArrayList<>();
+
     }
 
     private void showLogTrowableValorNoEsperado(Throwable throwable){
@@ -225,6 +228,7 @@ public class UnitTest  extends AppCompatActivity {
         Log.d("UnitTests", "Se han eliminado los platos generados en la prueba de INSERT");
     }
 
+    @Test
     private void updateTestPlato(){
 
         //Creacion del plato a modificar
@@ -442,6 +446,7 @@ public class UnitTest  extends AppCompatActivity {
         Log.d("UnitTests", "Se han eliminado los platos generados en la prueba");
     }
 
+    @Test
     private void deleteTestPlato() {
         //Creacion del plato a eliminar
         Plato plato = new Plato("Plato a eliminar", "",
@@ -488,6 +493,7 @@ public class UnitTest  extends AppCompatActivity {
         }
     }
 
+    @Test
     private void insertTestPedido(){
         ArrayList<Pedido> pedidosDePrueba = new ArrayList<>();
 
@@ -495,7 +501,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 1 : Insert correcto
         Pedido prueba1 = new Pedido("Nombre", 123456789,
-                "SOLICITADO", "2024/01/02", "20:00",
+                "SOLICITADO", "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba1);
         try {
@@ -512,7 +518,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 2 : Insert correcto
         Pedido prueba2 = new Pedido("Nombre", 123456789,
-                "PREPARADO", "2024/01/02", "20:00",
+                "PREPARADO", "2025/01/02", "20:00",
                 0.0);
         pedidosDePrueba.add(prueba2);
         try {
@@ -529,7 +535,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 3 : Insert correcto
         Pedido prueba3 = new Pedido("Nombre", 123456789,
-                "RECOGIDO", "2024/01/02", "20:00",
+                "RECOGIDO", "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba3);
         try {
@@ -546,7 +552,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 4 : Insert incorrecto
         Pedido prueba4 = new Pedido("", 123456789,
-                "PREPARADO", "2024/01/02", "20:00",
+                "PREPARADO", "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba4);
         try {
@@ -562,7 +568,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 5 : Insert incorrecto
         Pedido prueba5 = new Pedido(null, 123456789,
-                "PREPARADO", "2024/01/02", "20:00",
+                "PREPARADO", "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba5);
         try {
@@ -578,7 +584,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 6 : Insert incorrecto
         Pedido prueba6 = new Pedido("Nombre", null,
-                "PREPARADO", "2024/01/02", "20:00",
+                "PREPARADO", "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba6);
         try {
@@ -594,7 +600,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 7 : Insert incorrecto
         Pedido prueba7 = new Pedido("Nombre", 12345678,
-                "PREPARADO", "2024/01/02", "20:00",
+                "PREPARADO", "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba7);
         try {
@@ -610,7 +616,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 8 : Insert incorrecto
         Pedido prueba8 = new Pedido("Nombre", 1111111111,
-                "PREPARADO", "2024/01/02", "20:00",
+                "PREPARADO", "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba8);
         try {
@@ -626,7 +632,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 10 : Insert incorrecto
         Pedido prueba10 = new Pedido("Nombre", 123456789,
-                null, "2024/01/02", "20:00",
+                null, "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba10);
         try {
@@ -642,7 +648,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 11 : Insert incorrecto
         Pedido prueba11 = new Pedido("Nombre", 123456789,
-                "OTRO", "2024/01/02", "20:00",
+                "OTRO", "2025/01/02", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba11);
         try {
@@ -706,7 +712,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 15 : Insert incorrecto
         Pedido prueba15 = new Pedido("Nombre", 123456789,
-                "PREPARADO", "2024/01/01", "20:00",
+                "PREPARADO", "2025/01/06", "20:00",
                 20.0);
         pedidosDePrueba.add(prueba15);
         try {
@@ -738,7 +744,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 17 : Insert incorrecto
         Pedido prueba17 = new Pedido("Nombre", 123456789,
-                "PREPARADO", "2024/01/02", null,
+                "PREPARADO", "2025/01/02", null,
                 20.0);
         pedidosDePrueba.add(prueba17);
         try {
@@ -754,7 +760,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 18 : Insert incorrecto
         Pedido prueba18 = new Pedido("Nombre", 123456789,
-                "PREPARADO", "2024/01/02", "20:0",
+                "PREPARADO", "2025/01/02", "20:0",
                 20.0);
         pedidosDePrueba.add(prueba18);
         try {
@@ -770,7 +776,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 19 : Insert incorrecto
         Pedido prueba19 = new Pedido("Nombre", 123456789,
-                "PREPARADO", "2024/01/02", "20:111",
+                "PREPARADO", "2025/01/02", "20:111",
                 20.0);
         pedidosDePrueba.add(prueba19);
         try {
@@ -786,7 +792,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 20 : Insert incorrecto
         Pedido prueba20 = new Pedido("Nombre", 123456789,
-                "PREPARADO", "2024/01/02", "19:00",
+                "PREPARADO", "2025/01/02", "19:00",
                 20.0);
         pedidosDePrueba.add(prueba20);
         try {
@@ -802,7 +808,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 21 : Insert incorrecto
         Pedido prueba21 = new Pedido("Nombre", 123456789,
-                "PREPARADO", "2024/01/02", "20:00",
+                "PREPARADO", "2025/01/02", "20:00",
                 -1.5);
         pedidosDePrueba.add(prueba21);
         try {
@@ -818,7 +824,7 @@ public class UnitTest  extends AppCompatActivity {
 
         // Caso 22 : Insert incorrecto
         Pedido prueba22 = new Pedido("Nombre", 123456789,
-                "PREPARADO", "2024/01/02", "20:00",
+                "PREPARADO", "2025/01/02", "20:00",
                 null);
         pedidosDePrueba.add(prueba22);
         try {
@@ -838,10 +844,11 @@ public class UnitTest  extends AppCompatActivity {
         }
     }
 
+    @Test
     private void updateTestPedido(){
         //Creacion del pedido a modificar
         Pedido pedido = new Pedido("Nombre", 123456789,
-                "SOLICITADO", "2024/01/02", "20:00",
+                "SOLICITADO", "2025/01/02", "20:00",
                 20.0);
         int id = (int) mPedidoRepository.insert(pedido);
         pedido.setId(id);
@@ -852,7 +859,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("SOLICITADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -871,7 +878,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(0.0);
         try {
@@ -890,7 +897,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("RECOGIDO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -912,7 +919,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -930,7 +937,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente(null);
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -948,7 +955,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(null);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -966,7 +973,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(12345678);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -984,7 +991,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(111111111);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -1002,7 +1009,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado(null);
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -1020,7 +1027,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("OTRO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -1091,7 +1098,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/01");
+        pedido.setFechaRecogida("2025/01/01");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -1127,7 +1134,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida(null);
         pedido.setPrecioPedido(20.0);
         try {
@@ -1145,7 +1152,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:0");
         pedido.setPrecioPedido(20.0);
         try {
@@ -1163,7 +1170,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:111");
         pedido.setPrecioPedido(20.0);
         try {
@@ -1181,7 +1188,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("19:00");
         pedido.setPrecioPedido(20.0);
         try {
@@ -1199,7 +1206,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(-1.5);
         try {
@@ -1217,7 +1224,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(null);
         try {
@@ -1235,7 +1242,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         pedido.setId(999);
@@ -1254,7 +1261,7 @@ public class UnitTest  extends AppCompatActivity {
         pedido.setNombreCliente("Nom");
         pedido.setTelefonoCliente(123456789);
         pedido.setEstado("PREPARADO");
-        pedido.setFechaRecogida("2024/01/02");
+        pedido.setFechaRecogida("2025/01/02");
         pedido.setHoraRecogida("20:00");
         pedido.setPrecioPedido(20.0);
         pedido.setId(-1);
@@ -1274,10 +1281,11 @@ public class UnitTest  extends AppCompatActivity {
         mPedidoRepository.delete(pedido);
     }
 
+    @Test
     private void deleteTestPedido() {
         //Creacion del plato a eliminar
         Pedido pedido = new Pedido("Nombre", 123456789,
-                "SOLICITADO", "2024/01/02", "20:00",
+                "SOLICITADO", "2025/01/02", "20:00",
                 20.0);
         pedido.setId((int) mPedidoRepository.insert(pedido));
 
@@ -1345,13 +1353,18 @@ public class UnitTest  extends AppCompatActivity {
     private void runTestVolumenPlatos(){
         mPlatoRepository = new PlatoRepository(mContext);
 
-        String prefijoPlato = "plato_";
-        int cantidadPlatos = 100;
-        List<Plato> listaPlatos = new ArrayList<>();
+        String prefijoPlato = "Plato_";
         // Añadir platos
         for (int i = 1; i <= cantidadPlatos; i++) {
-            String nombrePlato = prefijoPlato + i;
-            Plato plato = new Plato(nombrePlato, "Descripción", "CATEGORIA", 10.0); // Ajusta la creación del plato según tu implementación
+            String nombrePlato = prefijoPlato;
+            if(i < 10) {
+                nombrePlato = nombrePlato + "00" + i;
+            } else if(i < 100) {
+                nombrePlato = nombrePlato + "0" + i;
+            } else{
+                nombrePlato = nombrePlato + i;
+            }
+            Plato plato = new Plato(nombrePlato, "Descripción", "PRIMERO", 10.0); // Ajusta la creación del plato según tu implementación
             try {
                 int idPlato = (int) mPlatoRepository.insert(plato);
                 plato.setId(idPlato);
@@ -1361,20 +1374,84 @@ public class UnitTest  extends AppCompatActivity {
                 Log.d("UnitTest", i+": " + throwable.getMessage());
             }
         }
-        for(Plato plato : listaPlatos){
-            mPlatoRepository.delete(plato);
+
+    }
+
+    private void runTestVolumenPedidos(){
+        mPedidoRepository = new PedidoRepository(mContext);
+
+        String prefijoPlato = "Pedido_";
+        // Añadir platos
+        for (int i = 1; i <= cantidadPedidos; i++) {
+            String nombreClientePlato = prefijoPlato;
+            if(i < 10) {
+                nombreClientePlato = nombreClientePlato + "00" + i;
+            } else if(i < 100) {
+                nombreClientePlato = nombreClientePlato + "0" + i;
+            } else{
+                nombreClientePlato = nombreClientePlato + i;
+            }
+            Pedido pedido = new Pedido(nombreClientePlato, 123456789,
+                    "SOLICITADO", "2025/01/02", "20:00",
+                    20.0);
+            try {
+                int idPedido = (int) mPedidoRepository.insert(pedido);
+                pedido.setId(idPedido);
+                listaPedidos.add(pedido);
+            } catch (Throwable throwable) {
+                // Manejar excepción específica o registrar el error según tus necesidades
+                Log.d("UnitTest", i+": " + throwable.getMessage());
+            }
         }
 
     }
 
+    public void borrarObjetosVolumen(){
+        mPlatoRepository = new PlatoRepository(mContext);
+        mPedidoRepository = new PedidoRepository(mContext);
+
+        if(listaPlatos != null){
+            for(Plato plato : listaPlatos){
+                mPlatoRepository.delete(plato);
+            }
+        }
+
+        if(listaPedidos != null){
+            for(Pedido pedido : listaPedidos){
+                mPedidoRepository.delete(pedido);
+            }
+        }
+
+        /*
+        //Busqueda de Platos por nombre
+        String prefijoPlato = "Plato_";
+        for (int i = 1; i <= cantidadPlatos; i++) {
+            String nombrePlato = prefijoPlato;
+            if (i < 10) {
+                nombrePlato = nombrePlato + "00" + i;
+            } else if (i < 100) {
+                nombrePlato = nombrePlato + "0" + i;
+            } else {
+                nombrePlato = nombrePlato + i;
+            }
+            try {
+                Plato plato = mPlatoRepository.getPlato(nombrePlato);
+                int resultado = mPlatoRepository.delete(plato);
+            } catch (Throwable throwable){
+                Log.d("UnitTest", throwable.getMessage());
+            }
+        }
+        */
+    }
 
     public void runAllTests(){
-        //runTestPlato();
-        //runTestPedido();
+        runTestPlato();
+        runTestPedido();
     }
 
     public void runTestVolumen(){
-        runTestVolumenPlatos();
+        //runTestVolumenPlatos();
+        runTestVolumenPedidos();
     }
 
 }

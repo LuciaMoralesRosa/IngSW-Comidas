@@ -103,20 +103,6 @@ public class PlatoRepository {
         AtomicLong result = new AtomicLong();
         Semaphore resource = new Semaphore(0);
 
-
-        List<Plato> listaPlatos = new ArrayList<>();
-        listaPlatos = mAllPlatos.getValue();
-        if (listaPlatos == null) {
-            // Aquí puedes manejar el caso cuando la lista es nula.
-            // Puedes lanzar una excepción, loguear un mensaje o tomar alguna otra acción.
-            throw new RuntimeException("Error al insertar el plato. La lista de platos es nula.");
-        }
-        int numPlatos = 0;
-        numPlatos = listaPlatos.size();
-        if(numPlatos == 100){
-            throw new RuntimeException("Error al insertar el plato. Se ha llenado el espacio disponible para platos.");
-        }
-
         ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
             long value;
             try {
@@ -210,5 +196,13 @@ public class PlatoRepository {
             Log.d("PlatoRepository", "InterruptedException en Insert: " + e.getMessage());
         }
         return result.get();
+    }
+
+    public Plato getPlato(String nombre) {
+        final Plato[] result = new Plato[0];
+        ComidasRoomDatabase.databaseWriteExecutor.execute(() -> {
+            result[0] = mPlatoDao.getPlato(nombre);
+        });
+        return result[0];
     }
 }

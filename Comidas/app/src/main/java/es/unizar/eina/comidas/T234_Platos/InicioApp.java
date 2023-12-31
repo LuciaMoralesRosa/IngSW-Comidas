@@ -36,7 +36,11 @@ public class InicioApp extends AppCompatActivity {
     Button mPruebasUnitarias;
     Button mPruebasVolumen;
 
+    Button mBorrarObjetos;
+
     Context mContext;
+
+    UnitTest mUnitTests;
 
     /**
      * Se llama cuando la actividad se está iniciando. Aquí se realiza la inicialización de la
@@ -51,11 +55,13 @@ public class InicioApp extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
 
         mContext = this;
+        mUnitTests = new UnitTest(mContext);
 
         mIrPlatos = findViewById(R.id.button_platos);
         mIrPedidos = findViewById(R.id.button_pedidos);
         mPruebasUnitarias = findViewById(R.id.button_pruebasUnitarias);
         mPruebasVolumen = findViewById(R.id.button_pruebasVolumen);
+        mBorrarObjetos = findViewById(R.id.button_borrarObjetos);
 
         mIrPlatos.setOnClickListener(view -> {
             Intent intent = new Intent(this, Platos.class);
@@ -97,16 +103,36 @@ public class InicioApp extends AppCompatActivity {
                     "Se ha terminado de ejecutar las pruebas con exito" ,
                     Toast.LENGTH_LONG).show();
         });
+
+        mBorrarObjetos.setOnClickListener(view -> {
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Se estan borrando los objetos generados por las pruebas de volumen..." ,
+                    Toast.LENGTH_LONG).show();
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Espere hasta que se le notifique la finalizacion del proceso" ,
+                    Toast.LENGTH_LONG).show();
+            borrarObjetosVolumen();
+            Toast.makeText(
+                    getApplicationContext(),
+                    "Se ha terminado de ejecutar el borrado con exito" ,
+                    Toast.LENGTH_LONG).show();
+        });
     }
 
     private void runTestUnitarios(){
-        UnitTest unitTests = new UnitTest(mContext);
-        unitTests.runAllTests();
+        mUnitTests.runAllTests();
     }
 
     private void runTestVolumen(){
-        UnitTest unitTests = new UnitTest(mContext);
-        unitTests.runTestVolumen();
+        mUnitTests.runTestVolumen();
     }
+
+    private void borrarObjetosVolumen(){
+        mUnitTests.borrarObjetosVolumen();
+    }
+
+
 
 }

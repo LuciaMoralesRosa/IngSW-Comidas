@@ -61,6 +61,9 @@ public interface PlatoDao {
     @Query("SELECT * FROM plato")
     LiveData<List<Plato>> getAllPlatos();
 
+    @Query("SELECT * FROM plato WHERE nombre = :nombre")
+    Plato getPlato(String nombre);
+
 
     @Query("SELECT COUNT(nombre) FROM plato")
     Integer getNumeroDePlatosDB();
