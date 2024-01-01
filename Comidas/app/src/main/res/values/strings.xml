@@ -19,12 +19,12 @@
     <!-- General -->
     <string name="app_name">T234_Comidas</string>
 
-    <string name="button_save">Save</string>
+    <string name="button_save">Guardar</string>
     <string name="button_platos">Platos</string>
     <string name="button_pedidos">Pedidos</string>
     <string name="button_pruebasUnitarias">Pruebas unitarias</string>
     <string name="button_pruebasVolumen">Pruebas volumen</string>
-    <string name="button_BorrarPruebasVolumen">Borrar volumen</string>
+    <string name="button_BorrarPruebasVolumen">Borrar objetos</string>
     <string name="button_pruebasSobrecarga">Pruebas sobrecarga</string>
 
     <string name="Pruebas_a_realizar">PRUEBAS</string>

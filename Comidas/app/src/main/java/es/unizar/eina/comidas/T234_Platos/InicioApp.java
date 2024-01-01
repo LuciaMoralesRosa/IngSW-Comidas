@@ -116,12 +116,12 @@ public class InicioApp extends AppCompatActivity {
         mPruebasSobrecarga.setOnClickListener(view -> {
             Toast.makeText(
                     getApplicationContext(),
-                    "Se estan borrando los objetos generados por las pruebas de volumen..." ,
+                    "Se estan ejecutando las pruebas de sobrecarga..." ,
                     Toast.LENGTH_LONG).show();
             runTestSobrecarga();
             Toast.makeText(
                     getApplicationContext(),
-                    "Se ha terminado de ejecutar el borrado con exito" ,
+                    "Se ha terminado de ejecutar las pruebas con exito" ,
                     Toast.LENGTH_LONG).show();
         });
     }

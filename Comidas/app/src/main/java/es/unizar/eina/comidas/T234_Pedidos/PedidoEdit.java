@@ -161,12 +161,14 @@ public class PedidoEdit extends AppCompatActivity {
                                              LocalTime horaFormateadaRecogidaLT){
         Boolean valor = true;
         Boolean fechaActualEsAnterior = null;
+        Boolean fechaActualEsIgual = null;
         Boolean horaActualEsAnterior = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             fechaActualEsAnterior = fechaFormateadaMomentoActualLT.isBefore(fechaFormateadaRecogidaLT);
+            fechaActualEsIgual = fechaFormateadaMomentoActualLT.isEqual(fechaFormateadaRecogidaLT);
             horaActualEsAnterior = horaFormateadaMomentoActualLT.isBefore(horaFormateadaRecogidaLT);
         }
-        if(!fechaActualEsAnterior || (fechaActualEsAnterior && !horaActualEsAnterior)){
+        if(!fechaActualEsAnterior || (fechaActualEsIgual && !horaActualEsAnterior)){
             valor = false;
         }
         return valor;

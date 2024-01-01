@@ -28,8 +28,8 @@ public class UnitTest  extends AppCompatActivity {
     private PlatoRepository mPlatoRepository;
     private PedidoRepository mPedidoRepository;
     private Context mContext;
-    List<Plato> listaPlatos;
-    List<Pedido> listaPedidos;
+    private List<Plato> listaPlatos;
+    private List<Pedido> listaPedidos;
 
     private final int cantidadPlatos = 101;
     private final int cantidadPedidos = 2000;
@@ -1544,7 +1544,7 @@ public class UnitTest  extends AppCompatActivity {
                             " descripcion con " + descripcion.length() + " caracteres");
                     continuar = false;
                 }
-                if (i % 100 == 0) {
+                if (i % 50 == 0) {
                     Log.d("UnitTest - Sobrecarga", "\tSe han introducido " + i + " platos \n" +
                             "\tEl plato " + i + " tiene una descripcion de " + descripcion.length() +
                             " caracteres");
